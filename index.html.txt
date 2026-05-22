@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoVietStay Travel Assistant</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#062b22;
+color:white;
+}
+
+.hero{
+padding:40px 20px;
+text-align:center;
+background:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.6)),
+url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e');
+background-size:cover;
+background-position:center;
+}
+
+.hero h1{
+font-size:36px;
+margin-bottom:10px;
+}
+
+.hero p{
+font-size:18px;
+opacity:.9;
+}
+
+.btn{
+display:inline-block;
+margin:10px;
+padding:14px 24px;
+background:#0fa37f;
+border-radius:14px;
+color:white;
+text-decoration:none;
+font-weight:bold;
+}
+
+.section{
+padding:24px;
+}
+
+.card{
+background:rgba(255,255,255,.08);
+padding:20px;
+margin-bottom:20px;
+border-radius:20px;
+backdrop-filter:blur(10px);
+}
+
+.card h2{
+margin-top:0;
+}
+
+.footer{
+text-align:center;
+padding:30px;
+opacity:.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+<h1>GoVietStay</h1>
+<p>Your Local Friend in Da Nang & Hoi An</p>
+
+<a class="btn" href="https://t.me/govietstay_travel_bot">
+Open Telegram</a>
+
+<a class="btn" href="https://wa.me/84937762607">
+WhatsApp</a>
+</div>
+
+<div class="section">
+
+<div class="card">
+<h2>Bana Hills</h2>
+<p>Golden Bridge, mountain air and sunset views.</p>
+</div>
+
+<div class="card">
+<h2>Hoi An Ancient Town</h2>
+<p>Lantern streets, coffee shops and local culture.</p>
+</div>
+
+<div class="card">
+<h2>Hai Van Pass</h2>
+<p>One of the most beautiful coastal roads in Vietnam.</p>
+</div>
+
+<div class="card">
+<h2>Russian Traveler Zone</h2>
+<p>Beach lifestyle, seafood, family friendly travel support.</p>
+</div>
+
+<div class="card">
+<h2>Local Tips</h2>
+<p>Food, beaches, weather and local experiences.</p>
+</div>
+
+</div>
+
+<div class="footer">
+GoVietStay • Da Nang • Vietnam
+</div>
+
+</body>
+</html>
