@@ -1,304 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GoVietStay Travel Assistant</title>
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  font-family:Arial, Helvetica, sans-serif;
-  background:#041c17;
-  color:#fff;
-  overflow-x:hidden;
-}
-
-a{
-  text-decoration:none;
-  color:inherit;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Arial,sans-serif;background:#041c17;color:white}
+a{text-decoration:none;color:inherit}
 
 .hero{
-  min-height:100vh;
-  padding:24px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  background:
-    linear-gradient(rgba(0,0,0,.35),rgba(2,28,23,.92)),
-    url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80");
-  background-size:cover;
-  background-position:center;
+min-height:92vh;
+padding:24px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+background:linear-gradient(rgba(0,0,0,.35),rgba(4,28,23,.92)),
+url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80");
+background-size:cover;
+background-position:center;
 }
 
-.hero-card{
-  width:100%;
-  max-width:520px;
-  padding:32px 22px;
-  border-radius:32px;
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.2);
-  backdrop-filter:blur(18px);
-  box-shadow:0 25px 80px rgba(0,0,0,.35);
+.hero-box{
+max-width:560px;
+padding:30px 22px;
+border-radius:30px;
+background:rgba(255,255,255,.12);
+border:1px solid rgba(255,255,255,.18);
+backdrop-filter:blur(18px);
 }
 
 .badge{
-  display:inline-block;
-  padding:8px 14px;
-  border-radius:999px;
-  background:rgba(15,163,127,.25);
-  color:#b8ffe9;
-  font-size:13px;
-  margin-bottom:18px;
+display:inline-block;
+padding:8px 14px;
+border-radius:50px;
+background:rgba(15,163,127,.3);
+color:#b8ffe9;
+font-size:13px;
+margin-bottom:16px;
 }
 
-.logo{
-  font-size:42px;
-  font-weight:800;
-  color:#f6c86a;
-  letter-spacing:.5px;
-}
+h1{font-size:42px;color:#f6c86a;margin-bottom:12px}
+.hero p{line-height:1.6;opacity:.92;font-size:17px}
 
-.subtitle{
-  margin-top:12px;
-  font-size:17px;
-  line-height:1.6;
-  opacity:.92;
-}
-
-.hero-buttons{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:12px;
-  margin-top:26px;
+.btns{
+display:grid;
+grid-template-columns:1fr;
+gap:12px;
+margin-top:22px;
 }
 
 .btn{
-  display:block;
-  padding:15px 18px;
-  border-radius:18px;
-  font-weight:700;
-  font-size:15px;
-  transition:.25s;
+display:block;
+padding:14px 18px;
+border-radius:16px;
+font-weight:bold;
+text-align:center;
 }
 
-.btn:hover{
-  transform:translateY(-2px);
-}
-
-.btn-main{
-  background:#0fa37f;
-  color:white;
-  box-shadow:0 12px 30px rgba(15,163,127,.35);
-}
-
-.btn-telegram{
-  background:#229ED9;
-}
-
-.btn-soft{
-  background:rgba(255,255,255,.13);
-  border:1px solid rgba(255,255,255,.18);
-}
+.green{background:#0fa37f}
+.blue{background:#229ED9}
+.soft{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.16)}
 
 .section{
-  padding:46px 18px;
-  max-width:980px;
-  margin:auto;
+padding:42px 16px;
+max-width:1050px;
+margin:auto;
 }
 
 .section h2{
-  text-align:center;
-  font-size:30px;
-  color:#f6c86a;
-  margin-bottom:12px;
+text-align:center;
+font-size:30px;
+color:#f6c86a;
+margin-bottom:10px;
 }
 
-.section-intro{
-  text-align:center;
-  max-width:660px;
-  margin:0 auto 28px;
-  opacity:.82;
-  line-height:1.7;
-  font-size:15px;
+.intro{
+text-align:center;
+max-width:680px;
+margin:0 auto 26px;
+opacity:.85;
+line-height:1.7;
 }
 
 .grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:18px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+gap:22px;
 }
 
 .card{
-  border-radius:26px;
-  padding:22px;
-  background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.06));
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:0 14px 45px rgba(0,0,0,.25);
+border-radius:26px;
+overflow:hidden;
+background:rgba(255,255,255,.09);
+border:1px solid rgba(255,255,255,.13);
+box-shadow:0 16px 50px rgba(0,0,0,.28);
 }
 
-.card h3{
-  color:#f6c86a;
-  font-size:21px;
-  margin-bottom:10px;
+.card img{
+width:100%;
+height:190px;
+object-fit:cover;
+display:block;
 }
 
-.card p{
-  line-height:1.65;
-  opacity:.86;
-  font-size:14.5px;
+.content{
+padding:20px;
 }
 
-.card small{
-  display:block;
-  margin-top:12px;
-  color:#b8ffe9;
-  line-height:1.55;
+.content h3{
+font-size:22px;
+color:#f6c86a;
+margin-bottom:10px;
 }
 
-.service-icon{
-  width:42px;
-  height:42px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:14px;
-  background:rgba(15,163,127,.22);
-  margin-bottom:14px;
-  font-size:22px;
+.content p{
+font-size:14.5px;
+line-height:1.65;
+opacity:.88;
+margin-bottom:12px;
 }
 
-.tips{
-  display:grid;
-  gap:12px;
+.note{
+font-size:13.5px;
+color:#b8ffe9;
+line-height:1.55;
+margin-bottom:15px;
 }
 
-.tip{
-  padding:16px;
-  border-radius:20px;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.08);
-  line-height:1.6;
-  font-size:14.5px;
+.book-row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
 }
 
-.ru-box{
-  background:
-    linear-gradient(135deg,rgba(15,163,127,.25),rgba(246,200,106,.14));
-  border-radius:30px;
-  padding:26px;
-  border:1px solid rgba(255,255,255,.16);
+.book{
+padding:12px;
+border-radius:14px;
+font-size:13.5px;
+font-weight:bold;
+text-align:center;
 }
 
-.ru-box h3{
-  font-size:24px;
-  margin-bottom:12px;
-  color:#f6c86a;
+.telegram{background:#229ED9}
+.whatsapp{background:#25D366}
+
+.service-card{
+padding:22px;
+border-radius:24px;
+background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.05));
+border:1px solid rgba(255,255,255,.12);
 }
 
-.ru-box p{
-  line-height:1.7;
-  opacity:.9;
-  margin-bottom:12px;
+.icon{
+font-size:30px;
+margin-bottom:10px;
 }
 
-.contact{
-  text-align:center;
-  padding:50px 18px 72px;
+.service-card h3{
+color:#f6c86a;
+font-size:21px;
+margin-bottom:10px;
 }
 
-.contact-card{
-  max-width:560px;
-  margin:auto;
-  border-radius:32px;
-  padding:28px 20px;
-  background:rgba(255,255,255,.11);
-  border:1px solid rgba(255,255,255,.16);
-  backdrop-filter:blur(18px);
-}
-
-.contact-card h2{
-  color:#f6c86a;
-  font-size:30px;
-  margin-bottom:12px;
-}
-
-.contact-card p{
-  opacity:.86;
-  line-height:1.7;
-  margin-bottom:22px;
-}
-
-.footer{
-  text-align:center;
-  padding:28px 18px;
-  background:#031511;
-  color:rgba(255,255,255,.58);
-  font-size:13px;
-  line-height:1.7;
+.service-card p{
+line-height:1.65;
+opacity:.86;
+font-size:14.5px;
+margin-bottom:14px;
 }
 
 .floating{
-  position:fixed;
-  right:16px;
-  bottom:16px;
-  z-index:50;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
+position:fixed;
+right:14px;
+bottom:14px;
+z-index:99;
+display:flex;
+flex-direction:column;
+gap:10px;
 }
 
-.float-btn{
-  width:54px;
-  height:54px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:23px;
-  box-shadow:0 12px 35px rgba(0,0,0,.3);
+.float{
+width:54px;
+height:54px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:23px;
+box-shadow:0 12px 35px rgba(0,0,0,.35);
 }
 
-.whatsapp{
-  background:#25D366;
+.ru{
+border-radius:28px;
+padding:24px;
+background:linear-gradient(135deg,rgba(15,163,127,.24),rgba(246,200,106,.15));
+border:1px solid rgba(255,255,255,.16);
+line-height:1.75;
 }
 
-.telegram{
-  background:#229ED9;
+.footer{
+padding:32px 16px;
+text-align:center;
+background:#031511;
+color:rgba(255,255,255,.65);
+line-height:1.8;
+font-size:13px;
 }
 
 @media(max-width:600px){
-  .hero{
-    padding:18px;
-  }
-
-  .hero-card{
-    padding:28px 18px;
-    border-radius:28px;
-  }
-
-  .logo{
-    font-size:36px;
-  }
-
-  .section{
-    padding:38px 16px;
-  }
-
-  .section h2{
-    font-size:26px;
-  }
+h1{font-size:36px}
+.hero{min-height:86vh}
+.book-row{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -306,162 +222,162 @@ a{
 <body>
 
 <div class="floating">
-  <a class="float-btn telegram" href="https://t.me/govietstay_travel_bot">✈️</a>
-  <a class="float-btn whatsapp" href="https://wa.me/84937762607">☘️</a>
+<a class="float telegram" href="https://t.me/govietstay_travel_bot">✈️</a>
+<a class="float whatsapp" href="https://wa.me/84937762607">☘️</a>
 </div>
 
 <section class="hero">
-  <div class="hero-card">
-    <div class="badge">Da Nang • Hoi An • Central Vietnam</div>
-    <div class="logo">GoVietStay</div>
-    <p class="subtitle">
-      Your local travel assistant in Vietnam.<br>
-      Private tours, airport transfer, SIM/eSIM, local tips and friendly support.
-    </p>
+<div class="hero-box">
+<div class="badge">Da Nang • Hoi An • Central Vietnam</div>
+<h1>GoVietStay</h1>
+<p>Your local travel assistant for private tours, airport transfer, SIM/eSIM, local tips and friendly support.</p>
+<div class="btns">
+<a class="btn green" href="#tours">Explore Tours</a>
+<a class="btn blue" href="https://t.me/govietstay_travel_bot">Book on Telegram</a>
+<a class="btn soft" href="https://wa.me/84937762607">WhatsApp Support</a>
+</div>
+</div>
+</section>
 
-    <div class="hero-buttons">
-      <a class="btn btn-main" href="#experiences">Explore Experiences</a>
-      <a class="btn btn-telegram" href="https://t.me/govietstay_travel_bot">Contact on Telegram</a>
-      <a class="btn btn-soft" href="https://wa.me/84937762607">WhatsApp Support</a>
-    </div>
-  </div>
+<section class="section" id="tours">
+<h2>Featured Tours</h2>
+<p class="intro">Choose your experience, read the local tips, then book directly through Telegram or WhatsApp.</p>
+
+<div class="grid">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1000&q=80">
+<div class="content">
+<h3>Ba Na Hills & Golden Bridge</h3>
+<p>Mountain views, cable car, gardens, French Village and the famous Golden Bridge.</p>
+<div class="note">Best for: family, couple, first-time visitors. Best time: early morning.</div>
+<div class="book-row">
+<a class="book telegram" href="https://t.me/govietstay_travel_bot?text=Hello%20GoVietStay%2C%20I%20want%20to%20ask%20about%20Ba%20Na%20Hills%20private%20tour.">Book Telegram</a>
+<a class="book whatsapp" href="https://wa.me/84937762607?text=Hello%20GoVietStay%2C%20I%20want%20to%20ask%20about%20Ba%20Na%20Hills%20private%20tour.">Ask WhatsApp</a>
+</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1000&q=80">
+<div class="content">
+<h3>Hoi An Ancient Town</h3>
+<p>Lantern streets, riverside walk, night market, boat ride and beautiful photo spots.</p>
+<div class="note">Best for: couples, families, culture lovers. Best time: sunset to evening.</div>
+<div class="book-row">
+<a class="book telegram" href="https://t.me/govietstay_travel_bot?text=Hello%20GoVietStay%2C%20I%20want%20to%20ask%20about%20Hoi%20An%20tour.">Book Telegram</a>
+<a class="book whatsapp" href="https://wa.me/84937762607?text=Hello%20GoVietStay%2C%20I%20want%20to%20ask%20about%20Hoi%20An%20tour.">Ask WhatsApp</a>
+</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1000&q=80">
+<div class="content">
+<h3>Hai Van Pass</h3>
+<p>Scenic coastal mountain route with ocean views, coffee stops and photo moments.</p>
+<div class="note">Best for: adventure, scenic drive, photography. Best time: sunny morning.</div>
+<div class="book-row">
+<a class="book telegram" href="https://t.me/govietstay_travel_bot?text=Hello%20GoVietStay%2C%20I%20want%20to%20ask%20about%20Hai%20Van%20Pass%20tour.">Book Telegram</a>
+<a class="book whatsapp" href="https://wa.me/84937762607?text=Hello%20GoVietStay%2C%20I%20want%20to%20ask%20about%20Hai%20Van%20Pass%20tour.">Ask WhatsApp</a>
+</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1000&q=80">
+<div class="content">
+<h3>Hue Imperial City</h3>
+<p>Ancient citadel, royal tombs, pagodas, history and traditional Vietnamese culture.</p>
+<div class="note">Best for: history, culture, full-day private trip.</div>
+<div class="book-row">
+<a class="book telegram" href="https://t.me/govietstay_travel_bot?text=Hello%20GoVietStay%2C%20I%20want%20to%20ask%20about%20Hue%20Imperial%20City%20tour.">Book Telegram</a>
+<a class="book whatsapp" href="https://wa.me/84937762607?text=Hello%20GoVietStay%2C%20I%20want%20to%20ask%20about%20Hue%20Imperial%20City%20tour.">Ask WhatsApp</a>
+</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1582650625119-3a31f8fa2699?auto=format&fit=crop&w=1000&q=80">
+<div class="content">
+<h3>Marble Mountains</h3>
+<p>Caves, pagodas, viewpoints and peaceful spiritual atmosphere near Da Nang city.</p>
+<div class="note">Best for: short tour, culture, spiritual places.</div>
+<div class="book-row">
+<a class="book telegram" href="https://t.me/govietstay_travel_bot?text=Hello%20GoVietStay%2C%20I%20want%20to%20ask%20about%20Marble%20Mountains%20tour.">Book Telegram</a>
+<a class="book whatsapp" href="https://wa.me/84937762607?text=Hello%20GoVietStay%2C%20I%20want%20to%20ask%20about%20Marble%20Mountains%20tour.">Ask WhatsApp</a>
+</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1000&q=80">
+<div class="content">
+<h3>Basket Boat Village</h3>
+<p>Fun coconut forest experience near Hoi An with local basket boat activities.</p>
+<div class="note">Best for: family, group, fun half-day plan.</div>
+<div class="book-row">
+<a class="book telegram" href="https://t.me/govietstay_travel_bot?text=Hello%20GoVietStay%2C%20I%20want%20to%20ask%20about%20Basket%20Boat%20Village.">Book Telegram</a>
+<a class="book whatsapp" href="https://wa.me/84937762607?text=Hello%20GoVietStay%2C%20I%20want%20to%20ask%20about%20Basket%20Boat%20Village.">Ask WhatsApp</a>
+</div>
+</div>
+</div>
+
+</div>
 </section>
 
 <section class="section">
-  <h2>Travel Services</h2>
-  <p class="section-intro">
-    Simple, friendly and flexible support for international travelers visiting Da Nang, Hoi An and Central Vietnam.
-  </p>
+<h2>Travel Services</h2>
+<p class="intro">Useful services for travelers before and during the trip.</p>
 
-  <div class="grid">
-    <div class="card">
-      <div class="service-icon">🚘</div>
-      <h3>Private Tours</h3>
-      <p>Flexible private experiences for couples, families and small groups.</p>
-      <small>Best for travelers who want comfort, local advice and timing flexibility.</small>
-    </div>
+<div class="grid">
 
-    <div class="card">
-      <div class="service-icon">✈️</div>
-      <h3>Airport Transfer</h3>
-      <p>Private airport pickup, luggage support and local assistance on arrival.</p>
-      <small>Good for late flights, families and first-time visitors.</small>
-    </div>
+<div class="service-card">
+<div class="icon">✈️</div>
+<h3>Airport Transfer</h3>
+<p>Private pickup, luggage support, smooth arrival and friendly communication.</p>
+<a class="btn blue" href="https://t.me/govietstay_travel_bot?text=Hello%20GoVietStay%2C%20I%20need%20airport%20transfer%20support.">Book Transfer</a>
+</div>
 
-    <div class="card">
-      <div class="service-icon">📱</div>
-      <h3>SIM / eSIM</h3>
-      <p>Fast travel data support for maps, Telegram, WhatsApp, TikTok and YouTube.</p>
-      <small>Easy setup and useful for staying connected during your trip.</small>
-    </div>
+<div class="service-card">
+<div class="icon">📱</div>
+<h3>SIM / eSIM</h3>
+<p>Travel data support for maps, WhatsApp, Telegram, TikTok and YouTube.</p>
+<a class="btn green" href="https://wa.me/84937762607?text=Hello%20GoVietStay%2C%20I%20want%20to%20ask%20about%20SIM%20or%20eSIM.">Ask SIM/eSIM</a>
+</div>
 
-    <div class="card">
-      <div class="service-icon">💬</div>
-      <h3>Local Support</h3>
-      <p>Ask about weather, food, local places, routes, timing and practical travel tips.</p>
-      <small>Friendly local communication before and during your trip.</small>
-    </div>
-  </div>
-</section>
+<div class="service-card">
+<div class="icon">💬</div>
+<h3>Local Tips</h3>
+<p>Ask about weather, local food, coffee, beaches, routes and timing.</p>
+<a class="btn blue" href="https://t.me/govietstay_travel_bot?text=Hello%20GoVietStay%2C%20I%20need%20local%20travel%20tips.">Ask Local Tips</a>
+</div>
 
-<section class="section" id="experiences">
-  <h2>Featured Experiences</h2>
-  <p class="section-intro">
-    Read first, then message us when you want a local suggestion.
-  </p>
+<div class="service-card">
+<div class="icon">🚘</div>
+<h3>Private Driver</h3>
+<p>Flexible car support for family trips, city travel and long-distance routes.</p>
+<a class="btn green" href="https://wa.me/84937762607?text=Hello%20GoVietStay%2C%20I%20want%20to%20ask%20about%20private%20driver.">Ask Driver</a>
+</div>
 
-  <div class="grid">
-    <div class="card">
-      <h3>Ba Na Hills & Golden Bridge</h3>
-      <p>Mountain views, cable car, gardens, French Village and the famous Golden Bridge.</p>
-      <small>Local tip: go early morning to avoid crowds and afternoon clouds.</small>
-    </div>
-
-    <div class="card">
-      <h3>Hoi An Ancient Town</h3>
-      <p>Lantern streets, riverside walk, night market, local food and beautiful photo spots.</p>
-      <small>Local tip: arrive before sunset and stay until lantern time.</small>
-    </div>
-
-    <div class="card">
-      <h3>Hai Van Pass</h3>
-      <p>A scenic coastal mountain road with ocean views, coffee stops and photo moments.</p>
-      <small>Local tip: best on sunny days with clear visibility.</small>
-    </div>
-
-    <div class="card">
-      <h3>Hue Imperial City</h3>
-      <p>Ancient citadel, royal tombs, pagodas and traditional Vietnamese history.</p>
-      <small>Local tip: combine Hue with Hai Van Pass for a full-day route.</small>
-    </div>
-
-    <div class="card">
-      <h3>Marble Mountains</h3>
-      <p>Caves, pagodas, viewpoints and spiritual atmosphere close to Da Nang city.</p>
-      <small>Local tip: wear comfortable shoes and avoid the hottest noon time.</small>
-    </div>
-
-    <div class="card">
-      <h3>Basket Boat Village</h3>
-      <p>A fun local experience near Hoi An with coconut forest and basket boat activities.</p>
-      <small>Local tip: good for families, groups and short half-day plans.</small>
-    </div>
-  </div>
+</div>
 </section>
 
 <section class="section">
-  <h2>Local Travel Tips</h2>
-  <p class="section-intro">
-    Small details help your Vietnam trip feel smoother and more enjoyable.
-  </p>
-
-  <div class="tips">
-    <div class="tip">🌅 Best beach time in Da Nang: early morning or late afternoon.</div>
-    <div class="tip">💵 Carry some cash for local food, markets and small shops.</div>
-    <div class="tip">🌧️ Ask local support before long-distance trips during rainy weather.</div>
-    <div class="tip">🏮 Hoi An is most beautiful from sunset to evening lantern time.</div>
-    <div class="tip">🚘 Private car is better for families, elderly guests and flexible travel.</div>
-    <div class="tip">📱 Telegram and WhatsApp are the fastest ways to contact local support.</div>
-  </div>
+<div class="ru">
+<h2>Russian Traveler Zone 🇷🇺</h2>
+<p>Da Nang is comfortable for Russian-speaking travelers who enjoy beach lifestyle, seafood, coffee and relaxed local experiences.</p>
+<p>Telegram support is useful for quick questions before booking tours, airport transfer or local services.</p>
+<p>Recommended: Ba Na Hills, Hoi An, Hai Van Pass, seafood dinner, beach sunset and private family tours.</p>
+<a class="btn blue" href="https://t.me/govietstay_travel_bot?text=Hello%20GoVietStay%2C%20I%20am%20a%20Russian-speaking%20traveler%20and%20need%20support.">Russian Support</a>
+</div>
 </section>
 
-<section class="section">
-  <div class="ru-box">
-    <h3>Russian Traveler Zone 🇷🇺</h3>
-    <p>
-      Da Nang is a comfortable destination for Russian-speaking travelers who enjoy beach lifestyle,
-      seafood, coffee, family-friendly tours and relaxed local experiences.
-    </p>
-    <p>
-      Telegram support is useful for quick questions before booking private tours, airport transfer
-      or local services.
-    </p>
-    <p>
-      Recommended experiences: Ba Na Hills, Hoi An Ancient Town, Hai Van Pass, seafood dinner and beach sunset.
-    </p>
-  </div>
+<section class="footer">
+GoVietStay Travel Assistant<br>
+Da Nang • Hoi An • Central Vietnam<br>
+WhatsApp / Viber: +84 937 762 607
 </section>
-
-<section class="contact">
-  <div class="contact-card">
-    <h2>Ask Before You Book</h2>
-    <p>
-      Tell us your travel date, number of guests, hotel area and what kind of experience you prefer.
-      We will suggest a simple local plan for you.
-    </p>
-
-    <div class="hero-buttons">
-      <a class="btn btn-telegram" href="https://t.me/govietstay_travel_bot">Chat on Telegram</a>
-      <a class="btn btn-main" href="https://wa.me/84937762607">Chat on WhatsApp</a>
-    </div>
-  </div>
-</section>
-
-<footer class="footer">
-  GoVietStay Travel Assistant<br>
-  Da Nang • Hoi An • Central Vietnam<br>
-  WhatsApp / Viber: +84 937 762 607
-</footer>
 
 </body>
 </html>
