@@ -1,60 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>GoVietStay Travel Assistant</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:Arial,sans-serif;background:#f4f7f4;color:#1d2b2a}
+body{
+  font-family:Arial,sans-serif;
+  background:linear-gradient(180deg,#fff4dc,#eef8ef,#f7efe3);
+  color:#1d2b2a;
+}
 a{text-decoration:none;color:inherit}
-.app{max-width:430px;margin:auto;background:#f4f7f4;min-height:100vh}
-.top{position:sticky;top:0;z-index:50;background:#2f89bd;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 6px 18px #0002}
+.app{max-width:430px;margin:auto;min-height:100vh;background:#f6f2e8;overflow:hidden}
+.top{
+  position:sticky;top:0;z-index:50;
+  background:rgba(5,56,38,.92);
+  color:#fff;padding:14px 18px;
+  display:flex;justify-content:space-between;align-items:center;
+  box-shadow:0 8px 28px #0003;
+  backdrop-filter:blur(12px)
+}
 .logo{font-size:18px;font-weight:900}
 .lang{font-size:12px;background:#ffffff22;border:1px solid #ffffff44;padding:7px 12px;border-radius:20px}
-.homeHero{height:330px;background:linear-gradient(#0002,#0009),url("https://commons.wikimedia.org/wiki/Special:Redirect/file/Da%20Nang%20Golden%20Bridge%2C%20Sun%20World%20Ba%20Na%20Hills.jpg?width=1200");background-size:cover;background-position:center;display:flex;align-items:end;padding:22px;color:#fff}
-.homeHero h1{font-size:30px;color:#ffd166;margin-bottom:8px}
-.homeHero p{font-size:14px;line-height:1.5}
-.section{padding:22px 16px}
-.title{font-size:23px;font-weight:900;margin-bottom:14px;color:#123}
-.card{background:#fff;border-radius:24px;margin-bottom:18px;overflow:hidden;box-shadow:0 8px 26px #0001}
-.photo{height:205px;background-size:cover;background-position:center;background-color:#d9e3df}
+.homeHero{
+  height:390px;
+  background:
+    linear-gradient(180deg,#06271866,#041b12d9),
+    url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1400&auto=format&fit=crop");
+  background-size:cover;background-position:center;
+  display:flex;align-items:end;padding:24px;color:#fff;
+}
+.homeHero h1{font-size:34px;color:#ffd166;margin-bottom:8px;line-height:1.05}
+.homeHero p{font-size:15px;line-height:1.55;max-width:330px}
+.heroBtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.heroBtn{padding:13px;border-radius:18px;text-align:center;font-weight:900;font-size:13px}
+.heroGreen{background:#25d366;color:#fff}
+.heroGlass{border:1px solid #ffffff77;background:#ffffff22;color:#fff;backdrop-filter:blur(10px)}
+.trustRow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.trustMini{background:#ffffff18;border:1px solid #ffffff26;border-radius:16px;padding:10px;font-size:12px;backdrop-filter:blur(8px)}
+.section{padding:24px 16px}
+.sectionWarm{
+  background:
+    radial-gradient(circle at top left,#ffe4a777,transparent 35%),
+    radial-gradient(circle at bottom right,#a7f3d044,transparent 35%),
+    linear-gradient(180deg,#fff4dc,#f6ead7);
+}
+.title{text-align:center;font-size:25px;font-weight:900;margin-bottom:6px;color:#123}
+.subtitle{text-align:center;color:#66736d;font-size:14px;margin-bottom:18px}
+.card{
+  background:rgba(255,255,255,.84);
+  border:1px solid #ffffffaa;
+  border-radius:26px;
+  margin-bottom:20px;overflow:hidden;
+  box-shadow:0 14px 36px #153b2d22;
+}
+.photo{
+  height:215px;background-size:cover;background-position:center;
+  background-color:#d9e3df;position:relative;
+}
+.photo:after{content:"";position:absolute;inset:0;background:linear-gradient(#0000,#0005)}
 .content{padding:18px}
 .content h3{font-size:22px;color:#123;margin-bottom:9px}
-.content p{font-size:14px;line-height:1.58;color:#52616a;margin-bottom:10px}
+.content p{font-size:14px;line-height:1.62;color:#52616a;margin-bottom:10px}
 .badges{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
 .badge{font-size:12px;background:#e8f6f1;color:#08785f;padding:7px 10px;border-radius:20px}
 .price{font-size:22px;font-weight:900;color:#f28c00;margin:12px 0}
+.note{font-size:12px;color:#788783;margin-top:-6px;margin-bottom:12px}
 .btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn{padding:13px;border-radius:14px;text-align:center;font-weight:900;font-size:13.5px}
+.btn{padding:14px;border-radius:16px;text-align:center;font-weight:900;font-size:13.5px;cursor:pointer}
 .blue{background:#229ed9;color:#fff}
 .green{background:#25d366;color:#fff}
+.darkGreen{background:#075a3d;color:#fff}
 .orange{background:#f28c00;color:#fff}
+.serviceGrid{display:grid;gap:14px}
+.serviceCard{
+  background:linear-gradient(135deg,#ffffffdd,#fff5d8dd);
+  border:1px solid #fff;
+  border-radius:24px;
+  padding:18px;
+  box-shadow:0 12px 32px #153b2d18;
+}
+.serviceIcon{font-size:30px;margin-bottom:8px}
+.serviceCard h3{font-size:19px;margin-bottom:8px;color:#123}
+.serviceCard p{font-size:14px;color:#52616a;line-height:1.58;margin-bottom:12px}
 .detail{display:none;padding-bottom:92px}
 .detail.active{display:block}
 .hidden{display:none}
 .back{background:#ffffff22;border:1px solid #fff5;color:#fff;padding:8px 14px;border-radius:20px}
-.cover{height:280px;background-size:cover;background-position:center;position:relative}
+.cover{height:300px;background-size:cover;background-position:center;position:relative}
 .cover:after{content:"";position:absolute;inset:0;background:linear-gradient(#0001,#0009)}
 .coverTitle{position:absolute;bottom:18px;left:18px;right:18px;color:#fff;z-index:2}
 .coverTitle h2{font-size:28px;color:#ffd166;margin-bottom:6px}
-.box{background:#fff;border-radius:22px;padding:18px;margin:16px;box-shadow:0 8px 24px #0001}
+.box{
+  background:rgba(255,255,255,.88);
+  border:1px solid #fff;
+  border-radius:24px;
+  padding:18px;margin:16px;
+  box-shadow:0 10px 28px #153b2d18;
+}
 .box h3{font-size:20px;color:#123;margin-bottom:12px}
 .box p{font-size:14.5px;line-height:1.75;color:#52616a;margin-bottom:12px}
 .list{display:grid;gap:12px}
 .li{display:flex;gap:10px;font-size:14.5px;line-height:1.55;color:#52616a}
-.check{color:#168aad;font-weight:900}
+.check{color:#08785f;font-weight:900}
 .trust{display:grid;gap:12px}
 .trustCard{display:flex;gap:14px;align-items:center;background:#fff;border-radius:18px;padding:15px;box-shadow:0 8px 22px #0001}
 .icon{width:44px;height:44px;border-radius:50%;background:#e8f6f1;display:flex;align-items:center;justify-content:center;font-size:21px}
-.bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:430px;background:#fff;padding:12px 14px;display:flex;gap:12px;align-items:center;box-shadow:0 -8px 25px #0002;z-index:99}
+.bottom{
+  position:fixed;left:50%;transform:translateX(-50%);bottom:0;
+  width:100%;max-width:430px;background:#fff;padding:12px 14px;
+  display:flex;gap:12px;align-items:center;
+  box-shadow:0 -8px 25px #0002;z-index:99
+}
 .bottomPrice{width:82px;color:#f28c00;font-size:20px;font-weight:900}
 .bottomPrice small{display:block;color:#8a98a0;font-size:11px}
-.book{flex:1;background:#f28c00;color:#fff;text-align:center;border-radius:15px;padding:15px;font-weight:900}
-.agent{position:fixed;right:18px;bottom:86px;width:58px;height:58px;border-radius:50%;background:#10b981;border:4px solid #fff;display:flex;align-items:center;justify-content:center;font-size:27px;z-index:100;box-shadow:0 8px 24px #0003}
-.footer{text-align:center;padding:26px 16px 90px;color:#708080;font-size:13px;line-height:1.7}
+.book{flex:1;background:#075a3d;color:#fff;text-align:center;border-radius:15px;padding:15px;font-weight:900}
+.agent{
+  position:fixed;right:18px;bottom:86px;width:60px;height:60px;border-radius:50%;
+  background:linear-gradient(135deg,#14d87c,#075a3d);
+  border:4px solid #fff;display:flex;align-items:center;justify-content:center;
+  font-size:27px;z-index:100;box-shadow:0 10px 28px #0004;cursor:pointer
+}
+.chatPanel{
+  display:none;position:fixed;right:12px;bottom:154px;width:330px;max-width:calc(100vw - 24px);
+  background:#fff;border-radius:24px;overflow:hidden;z-index:101;
+  box-shadow:0 18px 55px #0004;border:1px solid #fff;
+}
+.chatPanel.active{display:block}
+.chatHead{background:#075a3d;color:#fff;padding:14px 16px;display:flex;gap:10px;align-items:center}
+.aiIcon{width:38px;height:38px;border-radius:50%;background:#fff;color:#075a3d;display:flex;align-items:center;justify-content:center;font-weight:900}
+.chatBody{padding:14px;background:#f7faf8;max-height:410px;overflow:auto}
+.bubble{background:#fff;border-radius:16px;padding:12px;margin-bottom:10px;font-size:14px;line-height:1.55;color:#344}
+.chatOptions{display:grid;gap:8px}
+.chatOption{background:#e8f6f1;border:1px solid #caeadf;border-radius:14px;padding:10px;text-align:center;font-weight:800;font-size:13px;color:#075a3d;cursor:pointer}
+.footer{text-align:center;padding:30px 16px 96px;color:#708080;font-size:13px;line-height:1.8}
 </style>
 </head>
 
@@ -62,148 +144,213 @@ a{text-decoration:none;color:inherit}
 <div class="app">
 
 <div class="top">
-  <div class="logo">GoVietStay</div>
+  <div class="logo">🌿 GoVietStay</div>
   <div class="lang">EN • RU</div>
 </div>
 
 <div id="home">
   <div class="homeHero">
     <div>
-      <h1>Vietnam Travel Assistant</h1>
-      <p>Private tours • Airport transfer • Russian-speaking guide • Local support</p>
+      <h1>GoVietStay</h1>
+      <p>Your Local Friend in Da Nang. Private tours, airport transfers, local tips and travel support in one simple place.</p>
+      <div class="heroBtns">
+        <a class="heroBtn heroGreen" href="https://wa.me/84937762607?text=Hello%20GoVietStay%2C%20I%20need%20travel%20support%20in%20Da%20Nang.">WhatsApp</a>
+        <a class="heroBtn heroGlass" href="#experiences">Explore</a>
+      </div>
+      <div class="trustRow">
+        <div class="trustMini">💬 Fast Support</div>
+        <div class="trustMini">🚘 Private Comfort</div>
+        <div class="trustMini">🇷🇺 Russian Friendly</div>
+        <div class="trustMini">🌴 Local Expert</div>
+      </div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="title">Featured Experiences</div>
-    <div id="tourList"></div>
-  </div>
-
-  <div class="section">
-    <div class="title">Travel Services</div>
-
-    <div class="card">
-      <div class="content">
+  <div class="section sectionWarm">
+    <div class="title">How can we help?</div>
+    <div class="subtitle">Simple travel support for international guests</div>
+    <div class="serviceGrid">
+      <div class="serviceCard">
+        <div class="serviceIcon">👑</div>
+        <h3>Private Tours</h3>
+        <p>Flexible private experiences with car, local support and custom schedule.</p>
+        <a class="btn darkGreen" onclick="openService('private')">View Information</a>
+      </div>
+      <div class="serviceCard">
+        <div class="serviceIcon">🌍</div>
+        <h3>Travel Support Services</h3>
+        <p>International traveler assistance for a smooth and convenient trip.</p>
+        <a class="btn darkGreen" onclick="openService('support')">View Information</a>
+      </div>
+      <div class="serviceCard">
+        <div class="serviceIcon">🚗</div>
         <h3>Airport Transfer</h3>
-        <p>Private airport pickup, luggage support, hotel drop-off and friendly local communication.</p>
-        <div class="badges"><span class="badge">24/7 support</span><span class="badge">Private car</span></div>
-        <div class="price">From $15</div>
-        <div class="btns">
-          <a class="btn blue" href="https://t.me/govietstay_travel_bot">Telegram</a>
-          <a class="btn green" href="https://wa.me/84937762607?text=Hello%20GoVietStay%2C%20I%20need%20airport%20transfer.">WhatsApp</a>
-        </div>
+        <p>Private airport pickup, hotel drop-off and comfortable cars.</p>
+        <a class="btn darkGreen" onclick="openService('airport')">View Information</a>
+      </div>
+      <div class="serviceCard">
+        <div class="serviceIcon">📶</div>
+        <h3>SIM / eSIM</h3>
+        <p>Tourist internet support for maps, Telegram, WhatsApp and travel.</p>
+        <a class="btn darkGreen" onclick="openService('sim')">View Information</a>
       </div>
     </div>
+  </div>
 
-    <div class="card">
-      <div class="content">
-        <h3>SIM / eSIM Support</h3>
-        <p>Fast travel internet for maps, Telegram, WhatsApp, TikTok and YouTube.</p>
-        <div class="badges"><span class="badge">5G data</span><span class="badge">Traveler friendly</span></div>
-        <div class="price">Ask price</div>
-        <div class="btns">
-          <a class="btn blue" href="https://t.me/govietstay_travel_bot">Telegram</a>
-          <a class="btn green" href="https://wa.me/84937762607?text=Hello%20GoVietStay%2C%20I%20want%20SIM%20or%20eSIM%20support.">WhatsApp</a>
-        </div>
-      </div>
-    </div>
+  <div class="section sectionWarm" id="experiences">
+    <div class="title">Featured Experiences</div>
+    <div class="subtitle">Curated for Russian & international travelers</div>
+    <div id="tourList"></div>
   </div>
 
   <div class="footer">
     GoVietStay Travel Assistant<br>
     Da Nang • Hoi An • Central Vietnam<br>
-    WhatsApp / Viber: +84 937 762 607
+    WhatsApp / Viber: +84 937 762 607<br>
+    Telegram: https://t.me/+7I6QiOmwbCUwNTg9<br>
+    Website: www.govietstay.pi<br>
+    Powered by GoVietStation
   </div>
 </div>
 
 <div id="detail" class="detail"></div>
 </div>
 
+<div class="agent" onclick="toggleChat()">✨</div>
+
+<div id="chatPanel" class="chatPanel">
+  <div class="chatHead">
+    <div class="aiIcon">AI</div>
+    <div>
+      <b>GoVietStay AI Concierge</b><br>
+      <small>Online Travel Assistant</small>
+    </div>
+  </div>
+  <div class="chatBody" id="chatBody">
+    <div class="bubble">Hi 👋 Welcome to GoVietStay.<br>How can we help you today?</div>
+    <div class="chatOptions">
+      <div class="chatOption" onclick="chatAnswer('Private Tours')">Private Tours</div>
+      <div class="chatOption" onclick="chatAnswer('Ba Na Hills')">Ba Na Hills</div>
+      <div class="chatOption" onclick="chatAnswer('Hoi An')">Hoi An</div>
+      <div class="chatOption" onclick="chatAnswer('Airport Transfer')">Airport Transfer</div>
+      <div class="chatOption" onclick="chatAnswer('SIM / eSIM')">SIM / eSIM</div>
+      <div class="chatOption" onclick="chatAnswer('Local Tips')">Local Tips</div>
+      <div class="chatOption" onclick="chatAnswer('Travel Support')">Travel Support</div>
+    </div>
+  </div>
+</div>
+
 <script>
+const whatsapp="https://wa.me/84937762607?text=";
+const telegram="https://t.me/govietstay_travel_bot";
+
+const serviceInfo={
+private:{
+title:"Private Tours Da Nang",
+image:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop",
+price:"Custom",
+duration:"Flexible timing",
+overview:["Private tours are flexible travel experiences with a private vehicle, local support and custom schedule. Perfect for families, couples, small groups and guests who prefer comfort.","Popular routes include Ba Na Hills, Hoi An, Marble Mountains, Hue, Hai Van Pass and custom private programs."],
+program:["Tell us your hotel, travel date and number of guests.","Choose your preferred style: nature, culture, food, beach, family or luxury.","We suggest a smooth private route and today’s best option.","Final confirmation via Telegram or WhatsApp."],
+included:["Private route planning.","Friendly local support.","Flexible pickup time.","English / Russian-friendly assistance on request.","Telegram / WhatsApp support."],
+notIncluded:["Entrance tickets unless included in final quote.","Meals and personal expenses.","Optional activities."],
+best:["Families.","Couples.","Small groups.","Russian-speaking travelers.","Guests who prefer comfort and privacy."],
+tip:"Private tours are best when guests want flexible timing and less stress compared with group tours."
+},
+support:{
+title:"Travel Support Services",
+image:"https://images.unsplash.com/photo-1522199710521-72d69614c702?q=80&w=1400&auto=format&fit=crop",
+price:"Ask price",
+duration:"Flexible support",
+overview:["Helpful local support services for international travelers in Da Nang and Central Vietnam. We help guests feel more confident, comfortable and connected during the trip.","Support depends on availability and local regulations."],
+program:["Tell us what kind of support you need.","We check availability and give a clear suggestion.","You confirm by Telegram or WhatsApp."],
+included:["Tourist communication help.","Local travel assistance.","Flexible traveler support.","International traveler guidance.","Fast Telegram / WhatsApp response."],
+notIncluded:["Financial services or regulated services.","Services not allowed by local law.","Personal purchases."],
+best:["First-time visitors.","Russian travelers.","Guests needing local guidance.","Long-stay travelers."],
+tip:"For anything unclear during your trip, send us a message first before making decisions locally."
+},
+airport:{
+title:"Airport Transfer Da Nang",
+image:"https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1400&auto=format&fit=crop",
+price:"From $15",
+duration:"Airport ⇄ Hotel",
+overview:["Comfortable private airport transfer for international travelers arriving in Da Nang. Simple pickup, hotel drop-off and local communication support.","Good for families, couples, late-night arrivals and guests with luggage."],
+program:["Send flight number, arrival time and hotel address.","Driver/pickup support is arranged.","Meet and transfer to hotel safely.","Support available by Telegram or WhatsApp."],
+included:["Private car support.","Airport pickup or hotel drop-off.","Luggage support.","English-friendly local communication.","Flexible time support."],
+notIncluded:["Extra waiting time if flight or guest delay is long.","Extra stops unless confirmed.","Personal expenses."],
+best:["Airport arrivals.","Hotel transfer.","Families with luggage.","Late night travelers."],
+tip:"Send your flight number early so pickup time can be checked more smoothly."
+},
+sim:{
+title:"SIM / eSIM Support",
+image:"https://images.unsplash.com/photo-1512428559087-560fa5ceab42?q=80&w=1400&auto=format&fit=crop",
+price:"Ask price",
+duration:"Fast setup",
+overview:["Tourist SIM and eSIM support for travelers who need internet for maps, Telegram, WhatsApp, TikTok, YouTube and transport apps.","Availability may vary depending on device compatibility."],
+program:["Tell us your phone model and travel duration.","We suggest SIM or eSIM option if available.","Setup guidance is provided when possible."],
+included:["Tourist SIM/eSIM support.","Data package suggestion.","Setup assistance.","Telegram / WhatsApp guidance."],
+notIncluded:["Device incompatibility issues.","Personal app accounts.","Roaming charges from your home carrier."],
+best:["International travelers.","Remote workers.","Digital nomads.","Long-stay guests."],
+tip:"Check if your phone supports eSIM before arrival if you prefer digital setup."
+}
+};
+
 const tours=[
 {
 id:"bana",
 title:"Ba Na Hills & Golden Bridge",
 price:"From $65",
-duration:"Full day or flexible private timing",
-image:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Da%20Nang%20Golden%20Bridge%2C%20Sun%20World%20Ba%20Na%20Hills.jpg?width=1200",
+duration:"Full day",
+image:"https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=1400&auto=format&fit=crop",
 short:"Golden Bridge, cable car, French Village, gardens and cool mountain air.",
-overview:["Ba Na Hills & Golden Bridge is one of the most famous experiences for travelers visiting Da Nang. It is suitable for first-time visitors, families, couples and guests who want beautiful photos with a comfortable private trip.","The program is designed so guests have enough time for the cable car, Golden Bridge, flower gardens, French Village and relaxing mountain atmosphere.","Russian-speaking guide available on request for guests who prefer clear communication during the trip."],
-program:["Pickup at hotel in Da Nang or Hoi An.","Private transfer to Ba Na Hills.","Support with entrance ticket and cable car process.","Cable car experience to the mountain area.","Visit Golden Bridge for photo time.","Explore flower gardens and main check-in points.","Visit French Village and free time for coffee or lunch.","Fantasy Park optional depending on guest preference.","Cable car down and return to hotel."],
-included:["Private car transfer.","Hotel pickup and drop-off.","Local travel support.","Russian-speaking guide available on request.","Drinking water.","Flexible timing support.","Telegram / WhatsApp support before the trip."],
-notIncluded:["Entrance ticket if guest wants to buy directly.","Meals and personal expenses.","Optional activities inside Ba Na Hills.","Tips for driver or guide if guest wishes."],
-best:["First-time visitors.","Families with children.","Couples.","Russian-speaking travelers.","Photo lovers.","Guests who want a comfortable private trip."],
-tip:"Morning is better for fewer crowds and clear photos. Afternoon can be beautiful for golden light, but weather should be checked because the mountain can be cloudy or foggy."
+overview:["Ba Na Hills & Golden Bridge is one of the most famous experiences near Da Nang. It is suitable for first-time visitors, families, couples and guests who want beautiful photos with a comfortable private trip.","The program can include cable car, Golden Bridge, flower gardens, French Village and relaxing mountain atmosphere."],
+program:["Pickup at hotel in Da Nang or Hoi An.","Private transfer to Ba Na Hills.","Support with entrance ticket and cable car process.","Visit Golden Bridge for photo time.","Explore gardens, French Village and main check-in points.","Return to hotel."],
+included:["Private car transfer.","Hotel pickup and drop-off.","Local travel support.","Russian-speaking guide available on request.","Drinking water.","Telegram / WhatsApp support."],
+notIncluded:["Entrance ticket if not included in final quote.","Meals and personal expenses.","Optional activities inside Ba Na Hills.","Tips if guest wishes."],
+best:["First-time visitors.","Families with children.","Couples.","Russian-speaking travelers.","Photo lovers."],
+tip:"Morning is better for fewer crowds and clearer photos. Mountain weather can change quickly."
 },
 {
 id:"hoian",
 title:"Hoi An Ancient Town",
 price:"From $45",
 duration:"15:30 - 21:30",
-image:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Japanese%20Covered%20Bridge%20in%20Hoi%20An.jpg?width=1200",
+image:"https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=1400&auto=format&fit=crop",
 short:"Lantern streets, riverside walk, local food, night market and old-town atmosphere.",
-overview:["Hoi An Ancient Town is one of the most charming evening experiences in Central Vietnam. It is perfect for couples, families, culture lovers and guests who want a relaxed walking tour.","The tour focuses on the best time of day: late afternoon, sunset and lantern evening. Guests can enjoy old houses, local food, riverside views, night market and photo spots.","Russian-speaking guide available on request for smoother cultural explanation and easier communication."],
-program:["Pickup from hotel in Da Nang or Hoi An.","Transfer to Hoi An Ancient Town.","Walking around the old streets and photo spots.","Visit Japanese Bridge area and riverside streets.","Free time for coffee, local snacks or tailor shops.","Lantern streets and night market experience.","Optional boat ride on the river.","Return to hotel."],
-included:["Hotel pickup and return.","Private car support.","Local walking guidance.","Russian-speaking guide available on request.","Local food and coffee suggestions.","Telegram / WhatsApp support."],
+overview:["Hoi An Ancient Town is one of the most charming evening experiences in Central Vietnam. It is perfect for couples, families, culture lovers and guests who want a relaxed walking tour.","The best time is late afternoon, sunset and lantern evening."],
+program:["Pickup from hotel in Da Nang or Hoi An.","Transfer to Hoi An Ancient Town.","Walk around old streets and photo spots.","Visit riverside and lantern streets.","Optional boat ride on the river.","Return to hotel."],
+included:["Hotel pickup and return.","Private car support.","Local walking guidance.","Russian-speaking guide available on request.","Local food and coffee suggestions."],
 notIncluded:["Old town ticket if required.","Meals and drinks.","Boat ride fee if guests choose it.","Shopping and personal expenses."],
-best:["Couples.","Families.","Culture lovers.","Evening photography.","Guests who enjoy walking and local atmosphere."],
-tip:"Arrive before sunset to enjoy the golden light, then stay until the lanterns turn on for the best atmosphere."
-},
-{
-id:"haivan",
-title:"Hai Van Pass Scenic Route",
-price:"From $55",
-duration:"Half day or full day flexible",
-image:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Hai%20Van%20Pass%2C%20Vietnam%20%284267805189%29.jpg?width=1200",
-short:"Coastal mountain road with ocean views, coffee stops and photo moments.",
-overview:["Hai Van Pass is one of the most beautiful scenic roads between Da Nang and Hue. It is ideal for travelers who love ocean views, mountain roads and photo stops.","The trip can be done as a half-day scenic drive or combined with Lang Co, Lap An Lagoon or Hue for a longer experience.","Russian-speaking guide available on request for guests who want more local stories and easier communication."],
-program:["Pickup from hotel.","Drive along the coastal route from Da Nang.","Stop at viewpoints for photos.","Visit Hai Van Gate area.","Coffee stop optional.","Lang Co Bay viewpoint optional.","Continue to Hue or return to Da Nang depending on plan."],
-included:["Private car support.","Photo stops.","Route planning.","Russian-speaking guide available on request.","Drinking water.","Telegram / WhatsApp support."],
-notIncluded:["Meals and drinks.","Entrance fees if adding extra attractions.","Personal expenses.","Tips if guest wishes."],
-best:["Adventure lovers.","Scenic drive fans.","Couples.","Photographers.","Guests traveling between Da Nang and Hue."],
-tip:"Best on sunny days with clear visibility. Avoid heavy rain or thick fog because the pass can become less enjoyable."
-},
-{
-id:"hue",
-title:"Hue Imperial City",
-price:"From $75",
-duration:"Full day private trip",
-image:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Ngo%20Mon%20Gate%20for%20entry%20to%20the%20Imperial%20Citadel%2C%20Hue%20%2831654316702%29.jpg?width=1200",
-short:"Imperial citadel, royal tombs, pagodas and Vietnamese history.",
-overview:["Hue is the former imperial capital of Vietnam and one of the best cultural day trips from Da Nang. It is suitable for guests who want history, architecture, royal culture and a calm ancient atmosphere.","The tour can combine Imperial City, royal tombs, pagoda, local food and the beautiful Hai Van Pass route.","Russian-speaking guide available on request for better historical explanation."],
-program:["Pickup from hotel in Da Nang.","Optional scenic route through Hai Van Pass.","Visit Hue Imperial City.","Explore Ngo Mon Gate and royal architecture.","Visit royal tombs depending on timing.","Visit Thien Mu Pagoda optional.","Local lunch suggestion.","Return to Da Nang."],
-included:["Private transfer.","Hotel pickup and drop-off.","Route planning.","Russian-speaking guide available on request.","Drinking water.","Local food suggestion support."],
-notIncluded:["Entrance tickets.","Meals and drinks.","Personal expenses.","Optional attractions if added."],
-best:["History lovers.","Families.","Culture travelers.","Guests wanting a full-day private experience."],
-tip:"Hue is best as a full-day trip. Combining Hue with Hai Van Pass makes the route more beautiful and memorable."
+best:["Couples.","Families.","Culture lovers.","Evening photography.","Food lovers."],
+tip:"Arrive before sunset for golden light, then stay until lanterns turn on."
 },
 {
 id:"marble",
 title:"Marble Mountains",
 price:"From $35",
 duration:"2.5 - 4 hours",
-image:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Marble%20Mountains%20Da%20Nang.jpg?width=1200",
+image:"https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1400&auto=format&fit=crop",
 short:"Caves, pagodas, viewpoints and spiritual atmosphere near Da Nang city.",
-overview:["Marble Mountains is a beautiful short experience close to Da Nang city. It includes caves, pagodas, stone paths, viewpoints and a peaceful spiritual atmosphere.","This tour is easy to combine with Hoi An, Linh Ung Pagoda or a city tour.","Russian-speaking guide available on request for guests who want explanation about culture and local beliefs."],
+overview:["Marble Mountains is a beautiful short experience close to Da Nang city. It includes caves, pagodas, stone paths, viewpoints and a peaceful spiritual atmosphere.","Easy to combine with Hoi An, Linh Ung Pagoda or Da Nang city route."],
 program:["Pickup from hotel.","Transfer to Marble Mountains.","Visit cave areas and pagodas.","Viewpoint photo time.","Optional stone village stop.","Return to hotel or continue to Hoi An."],
 included:["Hotel pickup and return.","Private car support.","Local guidance.","Russian-speaking guide available on request.","Drinking water.","Flexible timing support."],
 notIncluded:["Entrance ticket if required.","Elevator fee if used.","Personal expenses.","Meals and drinks."],
-best:["Short tour lovers.","Families.","Culture and spiritual travelers.","Guests with limited time in Da Nang."],
+best:["Short tour lovers.","Families.","Culture and spiritual travelers.","Guests with limited time."],
 tip:"Wear comfortable shoes and avoid the hottest noon time because some areas require walking and steps."
 },
 {
-id:"basket",
-title:"Basket Boat Village",
-price:"From $35",
-duration:"Half day flexible",
-image:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Coconut%20Basket%20Boat%20Hoi%20An.jpg?width=1200",
-short:"Fun coconut forest experience near Hoi An with local basket boat activities.",
-overview:["Basket Boat Village is a fun and light local experience near Hoi An. It is suitable for families, groups and guests who want something easy, playful and different.","The activity can be combined with Hoi An Ancient Town for a smooth half-day or evening route.","Russian-speaking guide available on request for better support and communication."],
-program:["Pickup from hotel.","Transfer to coconut village area.","Basket boat activity.","Photo and local village time.","Optional combination with Hoi An Ancient Town.","Return to hotel."],
-included:["Transfer support.","Basket boat arrangement support.","Local assistance.","Russian-speaking guide available on request.","Photo time.","Telegram / WhatsApp support."],
-notIncluded:["Basket boat ticket if paid separately.","Meals and drinks.","Personal expenses.","Optional Hoi An add-on costs."],
-best:["Families.","Groups.","Guests wanting fun local activity.","Travelers combining with Hoi An."],
-tip:"Best combined with Hoi An in the afternoon so guests can enjoy basket boat first and lantern town later."
+id:"hue",
+title:"Hue Imperial City",
+price:"From $75",
+duration:"Full day",
+image:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop",
+short:"Imperial citadel, royal tombs, pagodas and Vietnamese history.",
+overview:["Hue is the former imperial capital of Vietnam and one of the best cultural day trips from Da Nang. It is suitable for guests who want history, architecture, royal culture and a calm ancient atmosphere.","The route can combine Imperial City, royal tombs, pagoda, local food and Hai Van Pass."],
+program:["Pickup from hotel in Da Nang.","Optional scenic route through Hai Van Pass.","Visit Hue Imperial City.","Explore royal architecture.","Visit royal tombs depending on timing.","Return to Da Nang."],
+included:["Private transfer.","Hotel pickup and drop-off.","Route planning.","Russian-speaking guide available on request.","Drinking water.","Local food suggestion support."],
+notIncluded:["Entrance tickets.","Meals and drinks.","Personal expenses.","Optional attractions if added."],
+best:["History lovers.","Families.","Culture travelers.","Full-day private experience."],
+tip:"Hue is best as a full-day trip. Combining Hue with Hai Van Pass makes the route more memorable."
 }
 ];
 
@@ -211,8 +358,7 @@ const tourList=document.getElementById("tourList");
 const home=document.getElementById("home");
 const detail=document.getElementById("detail");
 
-function msg(t){return encodeURIComponent("Hello GoVietStay, I want to ask about " + t.title + ". Please send me details.");}
-
+function msgTitle(title){return encodeURIComponent("Hello GoVietStay, I want to ask about " + title + ". Please send me details.");}
 function photo(url){return `background-image:linear-gradient(#0001,#0001),url('${url}')`;}
 
 function renderList(){
@@ -223,20 +369,30 @@ tourList.innerHTML=tours.map(t=>`
     <h3>${t.title}</h3>
     <p>${t.short}</p>
     <div class="badges">
-      <span class="badge">Russian-speaking guide</span>
-      <span class="badge">Private support</span>
+      <span class="badge">Russian-friendly support</span>
+      <span class="badge">Private comfort</span>
     </div>
     <div class="price">${t.price}</div>
+    <div class="note">Reference price. Final option depends on group size, date and availability.</div>
     <div class="btns">
       <a class="btn blue" onclick="openTour('${t.id}')">View Details</a>
-      <a class="btn green" href="https://wa.me/84937762607?text=${msg(t)}">Book</a>
+      <a class="btn green" href="${whatsapp}${msgTitle(t.title)}">WhatsApp</a>
     </div>
   </div>
 </div>`).join("");
 }
 
+function openService(id){
+const s=serviceInfo[id];
+openDetail(s);
+}
+
 function openTour(id){
 const t=tours.find(x=>x.id===id);
+openDetail(t);
+}
+
+function openDetail(t){
 home.classList.add("hidden");
 detail.classList.add("active");
 detail.innerHTML=`
@@ -258,14 +414,14 @@ detail.innerHTML=`
 </div>
 
 <div class="box">
-  <h3>Program</h3>
+  <h3>Suggested Flow</h3>
   <div class="list">
     ${t.program.map(i=>`<div class="li"><span class="check">•</span><span>${i}</span></div>`).join("")}
   </div>
 </div>
 
 <div class="box">
-  <h3>Included</h3>
+  <h3>Included / Support</h3>
   <div class="list">
     ${t.included.map(i=>`<div class="li"><span class="check">✓</span><span>${i}</span></div>`).join("")}
   </div>
@@ -293,17 +449,15 @@ detail.innerHTML=`
 <div class="box">
   <h3>Trust & Support</h3>
   <div class="trust">
-    <div class="trustCard"><div class="icon">🎙️</div><div><b>Russian-speaking guide</b><br><small>Available on request</small></div></div>
+    <div class="trustCard"><div class="icon">🇷🇺</div><div><b>Russian-friendly support</b><br><small>Available on request</small></div></div>
     <div class="trustCard"><div class="icon">🛡️</div><div><b>Safety support</b><br><small>Friendly local assistance</small></div></div>
     <div class="trustCard"><div class="icon">💬</div><div><b>Telegram / WhatsApp</b><br><small>Support before and during the trip</small></div></div>
   </div>
 </div>
 
-<div class="agent">👩</div>
-
 <div class="bottom">
   <div class="bottomPrice"><small>FROM</small>${t.price.replace("From ","")}</div>
-  <a class="book" href="https://wa.me/84937762607?text=${msg(t)}">Book Now</a>
+  <a class="book" href="${whatsapp}${msgTitle(t.title)}">Ask Now</a>
 </div>`;
 window.scrollTo(0,0);
 }
@@ -312,6 +466,29 @@ function goHome(){
 detail.classList.remove("active");
 home.classList.remove("hidden");
 window.scrollTo(0,0);
+}
+
+function toggleChat(){
+document.getElementById("chatPanel").classList.toggle("active");
+}
+
+function chatAnswer(topic){
+const answers={
+"Private Tours":"Private tours offer private vehicle, flexible schedule and local support. Best for families, couples and small groups. Popular routes: Ba Na Hills, Hoi An, Marble Mountains, Hue and custom experiences.",
+"Ba Na Hills":"Ba Na Hills is famous for the Golden Bridge, cable car, mountain views and cool weather. Best for families, couples and first-time visitors. Reference price from $65.",
+"Hoi An":"Hoi An is perfect for evening lantern streets, riverside atmosphere, local food and romantic photos. Best time: afternoon to evening. Reference price from $45.",
+"Airport Transfer":"Private airport transfer supports airport pickup, hotel drop-off, luggage and flexible timing. Reference price from $15 depending on route and vehicle.",
+"SIM / eSIM":"SIM/eSIM support helps travelers stay connected for maps, Telegram, WhatsApp and travel apps. Availability depends on device compatibility.",
+"Local Tips":"We share local tips for food, coffee, beaches, hidden gems, weather and safe travel around Da Nang.",
+"Travel Support":"Travel support helps international guests with communication, local guidance and smooth travel convenience in Da Nang and Central Vietnam."
+};
+const body=document.getElementById("chatBody");
+body.innerHTML += `<div class="bubble"><b>${topic}</b><br>${answers[topic]}</div>
+<div class="chatOptions">
+  <a class="chatOption" href="${telegram}">Ask on Telegram</a>
+  <a class="chatOption" href="${whatsapp}${encodeURIComponent('Hello GoVietStay, I need help with ' + topic)}">Chat on WhatsApp</a>
+</div>`;
+body.scrollTop=body.scrollHeight;
 }
 
 renderList();
