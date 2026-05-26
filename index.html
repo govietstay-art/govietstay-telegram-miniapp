@@ -3,191 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GoVietStay Travel Assistant</title>
+<title>GoVietStay Telegram Travel Assistant</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  font-family:Arial,sans-serif;
-  background:#071b14;
-  color:#1d2b2a;
-}
+body{font-family:Arial,sans-serif;background:#071b14;color:#1d2b2a}
 a{text-decoration:none;color:inherit}
-.app{
-  max-width:430px;
-  margin:auto;
-  min-height:100vh;
-  background:
-    radial-gradient(circle at top,#fbbf24 0%,transparent 22%),
-    radial-gradient(circle at 90% 10%,#16a34a55 0%,transparent 28%),
-    linear-gradient(180deg,#06251a,#0b3b2a 38%,#fff3d8 38%,#f7ead1 100%);
-  overflow:hidden;
-}
-.top{
-  position:sticky;top:0;z-index:50;
-  background:rgba(4,45,31,.86);
-  color:#fff;
-  padding:14px 18px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  backdrop-filter:blur(14px);
-  box-shadow:0 8px 30px #0004;
-}
-.logo{font-size:18px;font-weight:900;letter-spacing:.2px}
-.lang{font-size:12px;background:#ffffff22;border:1px solid #ffffff44;padding:7px 12px;border-radius:20px}
-
-.hero{
-  min-height:390px;
-  color:#fff;
-  padding:34px 22px 28px;
-  display:flex;
-  align-items:end;
-  position:relative;
-}
-.hero:before{
-  content:"";
-  position:absolute;inset:0;
-  background:
-    radial-gradient(circle at 80% 20%,#f59e0b99,transparent 30%),
-    radial-gradient(circle at 15% 20%,#22c55e66,transparent 25%),
-    linear-gradient(145deg,#052e20,#064e3b,#0f766e);
-  opacity:.95;
-}
-.hero:after{
-  content:"✦";
-  position:absolute;
-  right:24px;top:70px;
-  font-size:110px;
-  color:#ffffff14;
-}
+.app{max-width:430px;margin:auto;min-height:100vh;background:linear-gradient(180deg,#06251a,#0b3b2a 35%,#fff3d8 35%,#f7ead1 100%);overflow:hidden}
+.top{position:sticky;top:0;z-index:50;background:rgba(4,45,31,.9);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(14px);box-shadow:0 8px 30px #0004}
+.logo{font-size:18px;font-weight:900}
+.lang button{font-size:12px;background:#ffffff22;color:#fff;border:1px solid #ffffff44;padding:7px 10px;border-radius:20px;margin-left:4px}
+.hero{min-height:400px;color:#fff;padding:34px 22px 28px;display:flex;align-items:end;position:relative;background:radial-gradient(circle at 80% 18%,#f59e0b99,transparent 30%),radial-gradient(circle at 15% 20%,#22c55e66,transparent 26%),linear-gradient(145deg,#052e20,#064e3b,#0f766e)}
+.hero:after{content:"✦";position:absolute;right:24px;top:70px;font-size:110px;color:#ffffff16}
 .heroInner{position:relative;z-index:2}
-.heroTag{
-  display:inline-flex;
-  gap:6px;
-  align-items:center;
-  font-size:12px;
-  background:#ffffff22;
-  border:1px solid #ffffff44;
-  padding:8px 13px;
-  border-radius:20px;
-  margin-bottom:16px;
-}
-.hero h1{
-  font-size:42px;
-  line-height:1;
-  color:#fff;
-  margin-bottom:8px;
-  letter-spacing:-1px;
-}
-.hero h2{
-  font-size:21px;
-  color:#ffd166;
-  margin-bottom:12px;
-  font-style:italic;
-}
-.hero p{
-  font-size:15px;
-  line-height:1.6;
-  max-width:340px;
-  color:#f3f7f2;
-}
-.heroBtns{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:20px;
-}
-.heroBtn{
-  padding:14px;
-  border-radius:18px;
-  text-align:center;
-  font-weight:900;
-  font-size:13px;
-}
+.heroTag{display:inline-flex;font-size:12px;background:#ffffff22;border:1px solid #ffffff44;padding:8px 13px;border-radius:20px;margin-bottom:16px}
+.hero h1{font-size:42px;line-height:1;color:#fff;margin-bottom:8px}
+.hero h2{font-size:21px;color:#ffd166;margin-bottom:12px;font-style:italic}
+.hero p{font-size:15px;line-height:1.6;max-width:340px;color:#f3f7f2}
+.heroBtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.heroBtn{padding:14px;border-radius:18px;text-align:center;font-weight:900;font-size:13px}
 .heroGreen{background:#25d366;color:#fff}
-.heroGlass{border:1px solid #ffffff77;background:#ffffff22;color:#fff;backdrop-filter:blur(10px)}
-.trustRow{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:18px;
-}
-.trustMini{
-  background:#ffffff17;
-  border:1px solid #ffffff24;
-  border-radius:16px;
-  padding:10px;
-  font-size:12px;
-  backdrop-filter:blur(8px);
-}
-
-.section{
-  padding:24px 16px;
-}
-.title{
-  text-align:center;
-  font-size:25px;
-  font-weight:900;
-  margin-bottom:6px;
-  color:#123;
-}
-.subtitle{
-  text-align:center;
-  color:#66736d;
-  font-size:14px;
-  margin-bottom:18px;
-}
-.serviceGrid{
-  display:grid;
-  gap:14px;
-}
-.serviceCard{
-  background:rgba(255,255,255,.88);
-  border:1px solid #ffffffaa;
-  border-radius:26px;
-  padding:18px;
-  box-shadow:0 16px 38px #153b2d22;
-}
-.serviceIcon{
-  width:58px;height:58px;border-radius:19px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:28px;
-  background:linear-gradient(135deg,#064e3b,#10b981);
-  color:#fff;
-  margin-bottom:12px;
-  box-shadow:0 10px 24px #064e3b33;
-}
-.serviceCard h3{font-size:20px;margin-bottom:8px;color:#123}
+.heroBlue{background:#229ed9;color:#fff}
+.trustRow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.trustMini{background:#ffffff17;border:1px solid #ffffff24;border-radius:16px;padding:10px;font-size:12px;backdrop-filter:blur(8px)}
+.section{padding:24px 16px}
+.title{text-align:center;font-size:25px;font-weight:900;margin-bottom:6px;color:#123}
+.subtitle{text-align:center;color:#66736d;font-size:14px;margin-bottom:18px}
+.serviceGrid{display:grid;gap:14px}
+.serviceCard{background:rgba(255,255,255,.9);border:1px solid #ffffffaa;border-radius:26px;padding:18px;box-shadow:0 16px 38px #153b2d22}
+.serviceIcon{width:58px;height:58px;border-radius:19px;display:flex;align-items:center;justify-content:center;font-size:28px;background:linear-gradient(135deg,#064e3b,#10b981);color:#fff;margin-bottom:12px}
+.serviceCard h3{font-size:20px;margin-bottom:5px;color:#123}
+.ru{color:#08785f;font-size:13px;font-weight:800;margin-bottom:8px}
 .serviceCard p{font-size:14px;color:#52616a;line-height:1.6;margin-bottom:14px}
-
-.card{
-  border-radius:28px;
-  margin-bottom:20px;
-  overflow:hidden;
-  box-shadow:0 18px 46px #153b2d26;
-  background:#fffaf1;
-  border:1px solid #fff;
-}
-.cardTop{
-  height:190px;
-  padding:18px;
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  position:relative;
-  overflow:hidden;
-}
-.cardTop:after{
-  content:"";
-  position:absolute;
-  width:190px;height:190px;
-  right:-55px;top:-35px;
-  border-radius:50%;
-  background:#ffffff18;
-}
+.card{border-radius:28px;margin-bottom:20px;overflow:hidden;box-shadow:0 18px 46px #153b2d26;background:#fffaf1;border:1px solid #fff}
+.cardTop{height:190px;padding:18px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.cardTop:after{content:"";position:absolute;width:190px;height:190px;right:-55px;top:-35px;border-radius:50%;background:#ffffff18}
 .cardTop .emoji{font-size:44px;z-index:2}
 .cardTop h3{font-size:25px;line-height:1.12;z-index:2}
 .cardTop p{font-size:13px;color:#ffffffdd;z-index:2}
@@ -197,8 +48,10 @@ a{text-decoration:none;color:inherit}
 .hue{background:linear-gradient(135deg,#4c1d95,#7c3aed,#f59e0b)}
 .haivan{background:linear-gradient(135deg,#075985,#0ea5e9,#fbbf24)}
 .basket{background:linear-gradient(135deg,#14532d,#16a34a,#fde68a)}
+.food{background:linear-gradient(135deg,#7f1d1d,#f97316,#fde68a)}
+.myson{background:linear-gradient(135deg,#78350f,#b45309,#facc15)}
+.lady{background:linear-gradient(135deg,#0f172a,#0f766e,#93c5fd)}
 .content{padding:18px}
-.content h3{font-size:22px;color:#123;margin-bottom:9px}
 .content p{font-size:14px;line-height:1.62;color:#52616a;margin-bottom:10px}
 .badges{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
 .badge{font-size:12px;background:#e8f6f1;color:#08785f;padding:7px 10px;border-radius:20px}
@@ -209,126 +62,36 @@ a{text-decoration:none;color:inherit}
 .blue{background:#229ed9;color:#fff}
 .green{background:#25d366;color:#fff}
 .darkGreen{background:#075a3d;color:#fff}
-
 .detail{display:none;padding-bottom:92px}
 .detail.active{display:block}
 .hidden{display:none}
 .back{background:#ffffff22;border:1px solid #fff5;color:#fff;padding:8px 14px;border-radius:20px}
-.cover{
-  min-height:300px;
-  padding:24px;
-  color:#fff;
-  display:flex;
-  align-items:end;
-  position:relative;
-  overflow:hidden;
-}
-.cover:after{
-  content:"";
-  position:absolute;
-  width:260px;height:260px;
-  border-radius:50%;
-  background:#ffffff16;
-  right:-70px;top:-40px;
-}
+.cover{min-height:300px;padding:24px;color:#fff;display:flex;align-items:end;position:relative;overflow:hidden}
+.cover:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:#ffffff16;right:-70px;top:-40px}
 .coverTitle{position:relative;z-index:2}
 .coverEmoji{font-size:58px;margin-bottom:12px}
 .coverTitle h2{font-size:31px;color:#fff;margin-bottom:8px;line-height:1.1}
 .coverTitle p{color:#fff2cc}
-.box{
-  background:rgba(255,255,255,.9);
-  border:1px solid #fff;
-  border-radius:24px;
-  padding:18px;
-  margin:16px;
-  box-shadow:0 10px 28px #153b2d18;
-}
+.box{background:rgba(255,255,255,.92);border:1px solid #fff;border-radius:24px;padding:18px;margin:16px;box-shadow:0 10px 28px #153b2d18}
 .box h3{font-size:20px;color:#123;margin-bottom:12px}
 .box p{font-size:14.5px;line-height:1.75;color:#52616a;margin-bottom:12px}
 .list{display:grid;gap:12px}
 .li{display:flex;gap:10px;font-size:14.5px;line-height:1.55;color:#52616a}
 .check{color:#08785f;font-weight:900}
-.trust{display:grid;gap:12px}
-.trustCard{display:flex;gap:14px;align-items:center;background:#fff;border-radius:18px;padding:15px;box-shadow:0 8px 22px #0001}
-.icon{width:44px;height:44px;border-radius:50%;background:#e8f6f1;display:flex;align-items:center;justify-content:center;font-size:21px}
-
-.bottom{
-  position:fixed;left:50%;transform:translateX(-50%);bottom:0;
-  width:100%;max-width:430px;background:#fff;padding:12px 14px;
-  display:flex;gap:12px;align-items:center;
-  box-shadow:0 -8px 25px #0002;z-index:99
-}
+.bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:430px;background:#fff;padding:12px 14px;display:flex;gap:12px;align-items:center;box-shadow:0 -8px 25px #0002;z-index:99}
 .bottomPrice{width:82px;color:#f28c00;font-size:20px;font-weight:900}
 .bottomPrice small{display:block;color:#8a98a0;font-size:11px}
 .book{flex:1;background:#075a3d;color:#fff;text-align:center;border-radius:15px;padding:15px;font-weight:900}
-
-.agent{
-  position:fixed;right:18px;bottom:86px;width:60px;height:60px;border-radius:50%;
-  background:linear-gradient(135deg,#14d87c,#075a3d);
-  border:4px solid #fff;
-  display:flex;align-items:center;justify-content:center;
-  font-size:25px;z-index:100;
-  box-shadow:0 10px 28px #0004;
-  cursor:pointer;
-}
-.chatPanel{
-  display:none;
-  position:fixed;
-  right:12px;
-  bottom:154px;
-  width:330px;
-  max-width:calc(100vw - 24px);
-  background:#fff;
-  border-radius:24px;
-  overflow:hidden;
-  z-index:101;
-  box-shadow:0 18px 55px #0004;
-  border:1px solid #fff;
-}
+.agent{position:fixed;right:18px;bottom:86px;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#14d87c,#075a3d);border:4px solid #fff;display:flex;align-items:center;justify-content:center;font-size:25px;z-index:100;box-shadow:0 10px 28px #0004;cursor:pointer}
+.chatPanel{display:none;position:fixed;right:12px;bottom:154px;width:330px;max-width:calc(100vw - 24px);background:#fff;border-radius:24px;overflow:hidden;z-index:101;box-shadow:0 18px 55px #0004;border:1px solid #fff}
 .chatPanel.active{display:block}
-.chatHead{
-  background:#075a3d;
-  color:#fff;
-  padding:14px 16px;
-  display:flex;
-  gap:10px;
-  align-items:center;
-}
-.aiIcon{
-  width:38px;height:38px;border-radius:50%;
-  background:#fff;color:#075a3d;
-  display:flex;align-items:center;justify-content:center;
-  font-weight:900;
-}
+.chatHead{background:#075a3d;color:#fff;padding:14px 16px;display:flex;gap:10px;align-items:center}
+.aiIcon{width:38px;height:38px;border-radius:50%;background:#fff;color:#075a3d;display:flex;align-items:center;justify-content:center;font-weight:900}
 .chatBody{padding:14px;background:#f7faf8;max-height:410px;overflow:auto}
-.bubble{
-  background:#fff;
-  border-radius:16px;
-  padding:12px;
-  margin-bottom:10px;
-  font-size:14px;
-  line-height:1.55;
-  color:#344;
-}
+.bubble{background:#fff;border-radius:16px;padding:12px;margin-bottom:10px;font-size:14px;line-height:1.55;color:#344}
 .chatOptions{display:grid;gap:8px}
-.chatOption{
-  background:#e8f6f1;
-  border:1px solid #caeadf;
-  border-radius:14px;
-  padding:10px;
-  text-align:center;
-  font-weight:800;
-  font-size:13px;
-  color:#075a3d;
-  cursor:pointer;
-}
-.footer{
-  text-align:center;
-  padding:30px 16px 96px;
-  color:#51625c;
-  font-size:13px;
-  line-height:1.8;
-}
+.chatOption{background:#e8f6f1;border:1px solid #caeadf;border-radius:14px;padding:10px;text-align:center;font-weight:800;font-size:13px;color:#075a3d;cursor:pointer}
+.footer{text-align:center;padding:30px 16px 96px;color:#51625c;font-size:13px;line-height:1.8}
 </style>
 </head>
 
@@ -337,7 +100,10 @@ a{text-decoration:none;color:inherit}
 
 <div class="top">
   <div class="logo">🌿 GoVietStay</div>
-  <div class="lang">EN • RU</div>
+  <div class="lang">
+    <button onclick="setLang('en')">EN</button>
+    <button onclick="setLang('ru')">RU</button>
+  </div>
 </div>
 
 <div id="home">
@@ -345,45 +111,48 @@ a{text-decoration:none;color:inherit}
     <div class="heroInner">
       <div class="heroTag">🇻🇳 Da Nang • Hoi An • Central Vietnam</div>
       <h1>GoVietStay</h1>
-      <h2>Your Local Friend in Da Nang</h2>
-      <p>Private tours, airport transfers, local tips and travel support in one simple place.</p>
+      <h2 data-en="Your Local Friend in Da Nang" data-ru="Ваш местный помощник в Дананге">Your Local Friend in Da Nang</h2>
+      <p data-en="Private tours, airport transfers, local tips and travel support in one simple place." data-ru="Частные туры, трансфер, местные советы и поддержка путешественников в одном месте.">Private tours, airport transfers, local tips and travel support in one simple place.</p>
 
       <div class="heroBtns">
+        <a class="heroBtn heroBlue" href="https://t.me/govietstay_travel_bot">Telegram</a>
         <a class="heroBtn heroGreen" href="https://wa.me/84937762607?text=Hello%20GoVietStay%2C%20I%20need%20travel%20support%20in%20Da%20Nang.">WhatsApp</a>
-        <a class="heroBtn heroGlass" href="#experiences">Explore</a>
       </div>
 
       <div class="trustRow">
-        <div class="trustMini">💬 Fast Support</div>
+        <div class="trustMini">💬 Telegram Support</div>
         <div class="trustMini">🚘 Private Comfort</div>
-        <div class="trustMini">🇷🇺 Russian Friendly</div>
-        <div class="trustMini">🌴 Local Expert</div>
+        <div class="trustMini">🇷🇺 Русский гид</div>
+        <div class="trustMini">🇬🇧 English Guide</div>
       </div>
     </div>
   </div>
 
   <div class="section">
-    <div class="title">How can we help?</div>
-    <div class="subtitle">Simple travel support for international guests</div>
+    <div class="title">Travel Support</div>
+    <div class="subtitle">Поддержка путешественников</div>
 
     <div class="serviceGrid">
       <div class="serviceCard">
         <div class="serviceIcon">👑</div>
         <h3>Private Tours</h3>
-        <p>Flexible private experiences with car, local support and custom schedule.</p>
+        <div class="ru">Частные туры</div>
+        <p>Flexible private experiences with Russian-speaking or English-speaking guide available on request.</p>
         <a class="btn darkGreen" onclick="openService('private')">View Information</a>
       </div>
 
       <div class="serviceCard">
-        <div class="serviceIcon">🌍</div>
-        <h3>Travel Support Services</h3>
-        <p>International traveler assistance for a smooth and convenient trip.</p>
-        <a class="btn darkGreen" onclick="openService('support')">View Information</a>
+        <div class="serviceIcon">💳</div>
+        <h3>International Travel Convenience</h3>
+        <div class="ru">Удобная поддержка для туристов</div>
+        <p>Digital-friendly travel support for international guests who prefer convenient options during the trip.</p>
+        <a class="btn darkGreen" onclick="openService('payment')">View Information</a>
       </div>
 
       <div class="serviceCard">
         <div class="serviceIcon">🚗</div>
         <h3>Airport Transfer</h3>
+        <div class="ru">Трансфер из аэропорта</div>
         <p>Private airport pickup, hotel drop-off and comfortable cars.</p>
         <a class="btn darkGreen" onclick="openService('airport')">View Information</a>
       </div>
@@ -391,6 +160,7 @@ a{text-decoration:none;color:inherit}
       <div class="serviceCard">
         <div class="serviceIcon">📶</div>
         <h3>SIM / eSIM</h3>
+        <div class="ru">SIM / eSIM для туристов</div>
         <p>Tourist internet support for maps, Telegram, WhatsApp and travel.</p>
         <a class="btn darkGreen" onclick="openService('sim')">View Information</a>
       </div>
@@ -399,15 +169,15 @@ a{text-decoration:none;color:inherit}
 
   <div class="section" id="experiences">
     <div class="title">Featured Experiences</div>
-    <div class="subtitle">Curated for Russian & international travelers</div>
+    <div class="subtitle">Популярные туры для гостей из России</div>
     <div id="tourList"></div>
   </div>
 
   <div class="footer">
     GoVietStay Travel Assistant<br>
     Da Nang • Hoi An • Central Vietnam<br>
+    Telegram: https://t.me/govietstay_travel_bot<br>
     WhatsApp / Viber: +84 937 762 607<br>
-    Telegram: https://t.me/+7I6QiOmwbCUwNTg9<br>
     Website: www.govietstay.pi<br>
     Powered by GoVietStation
   </div>
@@ -416,28 +186,31 @@ a{text-decoration:none;color:inherit}
 <div id="detail" class="detail"></div>
 </div>
 
-<div class="agent" onclick="toggleChat()">✨</div>
+<div class="agent" onclick="toggleChat()">AI</div>
 
 <div id="chatPanel" class="chatPanel">
   <div class="chatHead">
     <div class="aiIcon">AI</div>
     <div>
       <b>GoVietStay AI Concierge</b><br>
-      <small>Online Travel Assistant</small>
+      <small>Online • EN / RU</small>
     </div>
   </div>
 
   <div class="chatBody" id="chatBody">
-    <div class="bubble">Hi 👋 Welcome to GoVietStay.<br>How can we help you today?</div>
+    <div class="bubble">
+      Hi 👋 Welcome to GoVietStay.<br>
+      Здравствуйте 👋 Добро пожаловать в GoVietStay.<br><br>
+      How can we help you today?
+    </div>
 
     <div class="chatOptions">
-      <div class="chatOption" onclick="chatAnswer('Private Tours')">Private Tours</div>
+      <div class="chatOption" onclick="chatAnswer('Private Tours')">Private Tours / Частные туры</div>
       <div class="chatOption" onclick="chatAnswer('Ba Na Hills')">Ba Na Hills</div>
-      <div class="chatOption" onclick="chatAnswer('Hoi An')">Hoi An</div>
+      <div class="chatOption" onclick="chatAnswer('Hoi An')">Hoi An / Хойан</div>
       <div class="chatOption" onclick="chatAnswer('Airport Transfer')">Airport Transfer</div>
-      <div class="chatOption" onclick="chatAnswer('SIM / eSIM')">SIM / eSIM</div>
-      <div class="chatOption" onclick="chatAnswer('Local Tips')">Local Tips</div>
-      <div class="chatOption" onclick="chatAnswer('Travel Support')">Travel Support</div>
+      <div class="chatOption" onclick="chatAnswer('Payment Support')">Travel Convenience</div>
+      <div class="chatOption" onclick="chatAnswer('Russian Guide')">Russian / English Guide</div>
     </div>
   </div>
 </div>
@@ -449,25 +222,27 @@ const telegram="https://t.me/govietstay_travel_bot";
 const serviceInfo={
 private:{
 title:"Private Tours Da Nang",
+ru:"Частные туры в Дананге",
 theme:"bana",
 emoji:"👑",
 price:"Custom",
 duration:"Flexible timing",
 overview:[
-"Private tours are flexible travel experiences with a private vehicle, local support and custom schedule. Perfect for families, couples, small groups and guests who prefer comfort.",
-"Popular routes include Ba Na Hills, Hoi An, Marble Mountains, Hue, Hai Van Pass and custom private programs."
+"Private tours are flexible travel experiences with a private vehicle, local support and custom schedule.",
+"Частные туры подходят для семей, пар и небольших групп, которые хотят комфорт, гибкий график и спокойную поездку.",
+"Russian-speaking guide and English-speaking guide are available on request, depending on schedule and availability."
 ],
 program:[
-"Tell us your hotel, travel date and number of guests.",
-"Choose your preferred style: nature, culture, food, beach, family or luxury.",
+"Send your hotel, travel date and number of guests.",
+"Choose your style: nature, culture, food, beach, family or luxury.",
 "We suggest a smooth private route and today’s best option.",
 "Final confirmation via Telegram or WhatsApp."
 ],
 included:[
 "Private route planning.",
-"Friendly local support.",
-"Flexible pickup time.",
-"English / Russian-friendly assistance on request.",
+"Private vehicle support.",
+"Russian-speaking guide available on request.",
+"English-speaking guide available on request.",
 "Telegram / WhatsApp support."
 ],
 notIncluded:[
@@ -476,62 +251,68 @@ notIncluded:[
 "Optional activities."
 ],
 best:[
+"Russian-speaking travelers.",
 "Families.",
 "Couples.",
 "Small groups.",
-"Russian-speaking travelers.",
 "Guests who prefer comfort and privacy."
 ],
-tip:"Private tours are best when guests want flexible timing and less stress compared with group tours."
+tip:"Private tours are best when guests want flexible timing, clear communication and less stress compared with group tours."
 },
-support:{
-title:"Travel Support Services",
-theme:"marble",
-emoji:"🌍",
-price:"Ask price",
-duration:"Flexible support",
+payment:{
+title:"International Travel Convenience",
+ru:"Удобная поддержка для международных туристов",
+theme:"haivan",
+emoji:"💳",
+price:"Ask support",
+duration:"Flexible",
 overview:[
-"Helpful local support services for international travelers in Da Nang and Central Vietnam. We help guests feel more confident, comfortable and connected during the trip.",
-"Support depends on availability and local regulations."
+"Modern international travelers often prefer digital-friendly and cash-light convenience during their trip.",
+"GoVietStay can guide guests about available local travel convenience options depending on availability and local regulations.",
+"Современные путешественники часто предпочитают удобные цифровые решения и меньше наличных во время поездки."
 ],
 program:[
-"Tell us what kind of support you need.",
-"We check availability and give a clear suggestion.",
-"You confirm by Telegram or WhatsApp."
+"Tell us what you need during your stay.",
+"We check what convenient options may be available.",
+"We explain clearly via Telegram or WhatsApp.",
+"Final support depends on availability and local regulations."
 ],
 included:[
-"Tourist communication help.",
-"Local travel assistance.",
-"Flexible traveler support.",
 "International traveler guidance.",
-"Fast Telegram / WhatsApp response."
+"Digital-friendly communication.",
+"Local convenience support.",
+"Telegram and WhatsApp assistance.",
+"Clear explanation before any service."
 ],
 notIncluded:[
-"Financial services or regulated services.",
-"Services not allowed by local law.",
-"Personal purchases."
+"No financial promises.",
+"No investment advice.",
+"No cash exchange service.",
+"No service outside local regulations."
 ],
 best:[
-"First-time visitors.",
-"Russian travelers.",
-"Guests needing local guidance.",
-"Long-stay travelers."
+"International travelers.",
+"Guests who prefer cash-light travel.",
+"Digital nomads.",
+"Long-stay travelers.",
+"Russian-speaking guests needing clear support."
 ],
-tip:"For anything unclear during your trip, send us a message first before making decisions locally."
+tip:"For sensitive travel convenience questions, message us first on Telegram or WhatsApp before making local decisions."
 },
 airport:{
 title:"Airport Transfer Da Nang",
+ru:"Трансфер из аэропорта Дананга",
 theme:"haivan",
 emoji:"🚗",
 price:"From $15",
 duration:"Airport ⇄ Hotel",
 overview:[
-"Comfortable private airport transfer for international travelers arriving in Da Nang. Simple pickup, hotel drop-off and local communication support.",
-"Good for families, couples, late-night arrivals and guests with luggage."
+"Comfortable private airport transfer for international travelers arriving in Da Nang.",
+"Удобный трансфер из аэропорта в отель с поддержкой для иностранных гостей."
 ],
 program:[
 "Send flight number, arrival time and hotel address.",
-"Driver/pickup support is arranged.",
+"Driver or pickup support is arranged.",
 "Meet and transfer to hotel safely.",
 "Support available by Telegram or WhatsApp."
 ],
@@ -543,27 +324,28 @@ included:[
 "Flexible time support."
 ],
 notIncluded:[
-"Extra waiting time if flight or guest delay is long.",
+"Extra waiting time if delay is long.",
 "Extra stops unless confirmed.",
 "Personal expenses."
 ],
 best:[
 "Airport arrivals.",
-"Hotel transfer.",
 "Families with luggage.",
-"Late night travelers."
+"Late night travelers.",
+"Russian travelers arriving in Da Nang."
 ],
 tip:"Send your flight number early so pickup time can be checked more smoothly."
 },
 sim:{
 title:"SIM / eSIM Support",
+ru:"SIM / eSIM для туристов",
 theme:"basket",
 emoji:"📶",
 price:"Ask price",
 duration:"Fast setup",
 overview:[
-"Tourist SIM and eSIM support for travelers who need internet for maps, Telegram, WhatsApp, TikTok, YouTube and transport apps.",
-"Availability may vary depending on device compatibility."
+"Tourist SIM and eSIM support for travelers who need internet for maps, Telegram, WhatsApp and travel apps.",
+"Помощь с SIM/eSIM для туристов во Вьетнаме."
 ],
 program:[
 "Tell us your phone model and travel duration.",
@@ -595,175 +377,143 @@ const tours=[
 {
 id:"bana",
 title:"Ba Na Hills & Golden Bridge",
+ru:"Бана Хиллс и Золотой мост",
 price:"From $65",
 duration:"Full day",
 theme:"bana",
 emoji:"🌉",
 short:"Golden Bridge, cable car, French Village, gardens and cool mountain air.",
 overview:[
-"Ba Na Hills & Golden Bridge is one of the most famous experiences near Da Nang. It is suitable for first-time visitors, families, couples and guests who want beautiful photos with a comfortable private trip.",
-"The program can include cable car, Golden Bridge, flower gardens, French Village and relaxing mountain atmosphere."
+"Ba Na Hills & Golden Bridge is one of the most famous experiences near Da Nang.",
+"Бана Хиллс — одно из самых популярных мест рядом с Данангом: Золотой мост, канатная дорога, горный воздух и красивые фото.",
+"Russian-speaking guide and English-speaking guide are available on request."
 ],
-program:[
-"Pickup at hotel in Da Nang or Hoi An.",
-"Private transfer to Ba Na Hills.",
-"Support with entrance ticket and cable car process.",
-"Visit Golden Bridge for photo time.",
-"Explore gardens, French Village and main check-in points.",
-"Return to hotel."
-],
-included:[
-"Private car transfer.",
-"Hotel pickup and drop-off.",
-"Local travel support.",
-"Russian-speaking guide available on request.",
-"Drinking water.",
-"Telegram / WhatsApp support."
-],
-notIncluded:[
-"Entrance ticket if not included in final quote.",
-"Meals and personal expenses.",
-"Optional activities inside Ba Na Hills.",
-"Tips if guest wishes."
-],
-best:[
-"First-time visitors.",
-"Families with children.",
-"Couples.",
-"Russian-speaking travelers.",
-"Photo lovers."
-],
-tip:"Morning is better for fewer crowds and clearer photos. Mountain weather can change quickly."
+program:["Hotel pickup.","Private transfer to Ba Na Hills.","Cable car support.","Golden Bridge photo time.","French Village and gardens.","Return to hotel."],
+included:["Private car transfer.","Local travel support.","Russian-speaking guide available on request.","English-speaking guide available on request.","Telegram / WhatsApp support."],
+notIncluded:["Entrance ticket if not included in final quote.","Meals and personal expenses.","Optional activities."],
+best:["First-time visitors.","Families.","Couples.","Russian-speaking travelers.","Photo lovers."],
+tip:"Morning is better for fewer crowds and clearer photos."
 },
 {
 id:"hoian",
 title:"Hoi An Ancient Town",
+ru:"Старый город Хойан",
 price:"From $45",
-duration:"15:30 - 21:30",
+duration:"Afternoon / Evening",
 theme:"hoian",
 emoji:"🏮",
-short:"Lantern streets, riverside walk, local food, night market and old-town atmosphere.",
+short:"Lantern streets, riverside walk, local food, night market and romantic atmosphere.",
 overview:[
-"Hoi An Ancient Town is one of the most charming evening experiences in Central Vietnam. It is perfect for couples, families, culture lovers and guests who want a relaxed walking tour.",
-"The best time is late afternoon, sunset and lantern evening."
+"Hoi An Ancient Town is perfect for evening lantern streets, riverside atmosphere and local culture.",
+"Хойан особенно красив вечером: фонари, река, старые улочки и романтичная атмосфера.",
+"Russian-speaking guide and English-speaking guide are available on request."
 ],
-program:[
-"Pickup from hotel in Da Nang or Hoi An.",
-"Transfer to Hoi An Ancient Town.",
-"Walk around old streets and photo spots.",
-"Visit riverside and lantern streets.",
-"Optional boat ride on the river.",
-"Return to hotel."
-],
-included:[
-"Hotel pickup and return.",
-"Private car support.",
-"Local walking guidance.",
-"Russian-speaking guide available on request.",
-"Local food and coffee suggestions."
-],
-notIncluded:[
-"Old town ticket if required.",
-"Meals and drinks.",
-"Boat ride fee if guests choose it.",
-"Shopping and personal expenses."
-],
-best:[
-"Couples.",
-"Families.",
-"Culture lovers.",
-"Evening photography.",
-"Food lovers."
-],
-tip:"Arrive before sunset for golden light, then stay until lanterns turn on."
+program:["Hotel pickup.","Transfer to Hoi An.","Walking around old town.","Lantern streets and riverside.","Optional boat ride.","Return to hotel."],
+included:["Private car support.","Local walking guidance.","Russian-speaking guide available on request.","English-speaking guide available on request.","Food and coffee suggestions."],
+notIncluded:["Old town ticket if required.","Meals and drinks.","Boat ride fee.","Shopping expenses."],
+best:["Couples.","Families.","Photography.","Food lovers.","Evening travelers."],
+tip:"Arrive before sunset, then stay until lanterns turn on."
 },
 {
 id:"marble",
 title:"Marble Mountains",
+ru:"Мраморные горы",
 price:"From $35",
 duration:"2.5 - 4 hours",
 theme:"marble",
 emoji:"⛰️",
 short:"Caves, pagodas, viewpoints and spiritual atmosphere near Da Nang city.",
 overview:[
-"Marble Mountains is a beautiful short experience close to Da Nang city. It includes caves, pagodas, stone paths, viewpoints and a peaceful spiritual atmosphere.",
-"Easy to combine with Hoi An, Linh Ung Pagoda or Da Nang city route."
+"Marble Mountains is a short and beautiful experience close to Da Nang.",
+"Мраморные горы — пещеры, пагоды, виды на город и спокойная духовная атмосфера.",
+"Easy to combine with Hoi An or Lady Buddha."
 ],
-program:[
-"Pickup from hotel.",
-"Transfer to Marble Mountains.",
-"Visit cave areas and pagodas.",
-"Viewpoint photo time.",
-"Optional stone village stop.",
-"Return to hotel or continue to Hoi An."
-],
-included:[
-"Hotel pickup and return.",
-"Private car support.",
-"Local guidance.",
-"Russian-speaking guide available on request.",
-"Drinking water.",
-"Flexible timing support."
-],
-notIncluded:[
-"Entrance ticket if required.",
-"Elevator fee if used.",
-"Personal expenses.",
-"Meals and drinks."
-],
-best:[
-"Short tour lovers.",
-"Families.",
-"Culture and spiritual travelers.",
-"Guests with limited time."
-],
-tip:"Wear comfortable shoes and avoid the hottest noon time because some areas require walking and steps."
+program:["Hotel pickup.","Transfer to Marble Mountains.","Caves and pagodas.","Viewpoint photo time.","Optional stone village.","Return or continue to Hoi An."],
+included:["Private car support.","Local guidance.","Russian-speaking guide available on request.","English-speaking guide available on request.","Flexible timing support."],
+notIncluded:["Entrance ticket if required.","Elevator fee if used.","Meals and drinks."],
+best:["Short tour lovers.","Families.","Culture travelers.","Guests with limited time."],
+tip:"Wear comfortable shoes and avoid the hottest noon time."
 },
 {
 id:"hue",
 title:"Hue Imperial City",
+ru:"Императорский город Хюэ",
 price:"From $75",
 duration:"Full day",
 theme:"hue",
 emoji:"🏯",
 short:"Imperial citadel, royal tombs, pagodas and Vietnamese history.",
 overview:[
-"Hue is the former imperial capital of Vietnam and one of the best cultural day trips from Da Nang. It is suitable for guests who want history, architecture, royal culture and a calm ancient atmosphere.",
-"The route can combine Imperial City, royal tombs, pagoda, local food and Hai Van Pass."
+"Hue is the former imperial capital of Vietnam and one of the best cultural day trips from Da Nang.",
+"Хюэ подходит для тех, кто любит историю, архитектуру, королевскую культуру и спокойную атмосферу."
 ],
-program:[
-"Pickup from hotel in Da Nang.",
-"Optional scenic route through Hai Van Pass.",
-"Visit Hue Imperial City.",
-"Explore royal architecture.",
-"Visit royal tombs depending on timing.",
-"Return to Da Nang."
+program:["Hotel pickup.","Optional Hai Van Pass route.","Visit Imperial City.","Royal tombs depending on timing.","Pagoda optional.","Return to Da Nang."],
+included:["Private transfer.","Route planning.","Russian-speaking guide available on request.","English-speaking guide available on request.","Local food suggestion support."],
+notIncluded:["Entrance tickets.","Meals and drinks.","Optional attractions."],
+best:["History lovers.","Families.","Culture travelers.","Full-day private experience."],
+tip:"Hue is best as a full-day trip."
+},
+{
+id:"lady",
+title:"Lady Buddha & Son Tra",
+ru:"Леди Будда и полуостров Сон Тра",
+price:"From $35",
+duration:"2 - 4 hours",
+theme:"lady",
+emoji:"🙏",
+short:"Ocean views, peaceful pagoda, giant Lady Buddha statue and mountain atmosphere.",
+overview:[
+"Lady Buddha and Son Tra Peninsula is a peaceful short trip with ocean views and a spiritual atmosphere.",
+"Леди Будда — красивое спокойное место с видом на море, пагодой и горной атмосферой."
 ],
-included:[
-"Private transfer.",
-"Hotel pickup and drop-off.",
-"Route planning.",
-"Russian-speaking guide available on request.",
-"Drinking water.",
-"Local food suggestion support."
+program:["Hotel pickup.","Visit Linh Ung Pagoda.","Photo time with Lady Buddha statue.","Ocean viewpoint stops.","Return to hotel."],
+included:["Private transfer support.","Local guidance.","English support.","Russian-speaking guide available on request."],
+notIncluded:["Meals and drinks.","Personal expenses.","Optional extra stops."],
+best:["Families.","Couples.","Spiritual atmosphere.","Short trip visitors."],
+tip:"Best in the morning or late afternoon for softer light."
+},
+{
+id:"food",
+title:"Da Nang Food Experience",
+ru:"Гастрономический тур в Дананге",
+price:"From $35",
+duration:"Evening",
+theme:"food",
+emoji:"🍜",
+short:"Local food, coffee, street atmosphere and simple cultural experience.",
+overview:[
+"Da Nang food experience is great for travelers who want to discover local flavors with support.",
+"Гастрономический тур подходит гостям, которые хотят попробовать местную еду без лишнего стресса."
 ],
-notIncluded:[
-"Entrance tickets.",
-"Meals and drinks.",
-"Personal expenses.",
-"Optional attractions if added."
+program:["Hotel pickup or meeting point.","Local food stops.","Coffee or dessert suggestion.","Local area walk.","Return support optional."],
+included:["Local food guidance.","Restaurant suggestion support.","Telegram / WhatsApp assistance.","English support."],
+notIncluded:["Food and drinks unless included in final quote.","Transport if not requested.","Personal expenses."],
+best:["Food lovers.","Couples.","Small groups.","Russian travelers wanting local experience."],
+tip:"Tell us any food restrictions before the tour."
+},
+{
+id:"myson",
+title:"My Son Sanctuary",
+ru:"Святилище Мишон",
+price:"From $55",
+duration:"Half day",
+theme:"myson",
+emoji:"🏛️",
+short:"Ancient Cham temples, culture, history and peaceful countryside route.",
+overview:[
+"My Son Sanctuary is a cultural trip to ancient Cham temple ruins near Hoi An.",
+"Мишон подходит для гостей, которые любят историю, культуру и древнюю архитектуру."
 ],
-best:[
-"History lovers.",
-"Families.",
-"Culture travelers.",
-"Full-day private experience."
-],
-tip:"Hue is best as a full-day trip. Combining Hue with Hai Van Pass makes the route more memorable."
+program:["Hotel pickup.","Transfer to My Son Sanctuary.","Walk through temple area.","Cultural explanation support.","Return to hotel or continue to Hoi An."],
+included:["Private transfer support.","Route planning.","English guide available on request.","Russian-speaking guide available on request."],
+notIncluded:["Entrance tickets.","Meals and drinks.","Personal expenses."],
+best:["Culture lovers.","History travelers.","Couples.","Small groups."],
+tip:"Morning is better to avoid heat."
 },
 {
 id:"haivan",
 title:"Hai Van Pass Scenic Route",
+ru:"Перевал Хай Ван",
 price:"From $55",
 duration:"Half day / Full day",
 theme:"haivan",
@@ -771,74 +521,13 @@ emoji:"🌊",
 short:"Ocean views, mountain road, coffee stops and cinematic viewpoints.",
 overview:[
 "Hai Van Pass is one of the most scenic coastal mountain roads in Central Vietnam.",
-"It is ideal for travelers who enjoy nature, viewpoints, private comfort and slow travel."
+"Перевал Хай Ван — красивые виды на море, горы и дорога между Данангом и Хюэ."
 ],
-program:[
-"Pickup from hotel.",
-"Scenic drive along coastal route.",
-"Stop at viewpoints for photos.",
-"Coffee stop optional.",
-"Return to Da Nang or continue to Hue."
-],
-included:[
-"Private car support.",
-"Photo stops.",
-"Route planning.",
-"Drinking water.",
-"Telegram / WhatsApp support."
-],
-notIncluded:[
-"Meals and drinks.",
-"Extra attraction tickets.",
-"Personal expenses."
-],
-best:[
-"Nature lovers.",
-"Couples.",
-"Photographers.",
-"Guests traveling between Da Nang and Hue."
-],
+program:["Hotel pickup.","Coastal scenic drive.","Viewpoint photo stops.","Coffee stop optional.","Return or continue to Hue."],
+included:["Private car support.","Photo stops.","Route planning.","English support.","Telegram / WhatsApp support."],
+notIncluded:["Meals and drinks.","Extra attraction tickets.","Personal expenses."],
+best:["Nature lovers.","Couples.","Photographers.","Guests traveling between Da Nang and Hue."],
 tip:"Best on sunny days with clear visibility."
-},
-{
-id:"basket",
-title:"Basket Boat Village",
-price:"From $35",
-duration:"Half day",
-theme:"basket",
-emoji:"🛶",
-short:"Fun coconut forest experience near Hoi An with local basket boat activities.",
-overview:[
-"Basket Boat Village is a fun local experience near Hoi An, suitable for families and groups.",
-"It can combine very well with Hoi An Ancient Town in the afternoon."
-],
-program:[
-"Pickup from hotel.",
-"Transfer to coconut village.",
-"Basket boat activity.",
-"Photo and local village time.",
-"Optional Hoi An combination.",
-"Return to hotel."
-],
-included:[
-"Transfer support.",
-"Basket boat arrangement support.",
-"Local assistance.",
-"Photo time.",
-"Telegram / WhatsApp support."
-],
-notIncluded:[
-"Basket boat ticket if paid separately.",
-"Meals and drinks.",
-"Personal expenses."
-],
-best:[
-"Families.",
-"Groups.",
-"Guests wanting fun local activity.",
-"Travelers combining with Hoi An."
-],
-tip:"Best combined with Hoi An in the afternoon."
 }
 ];
 
@@ -846,9 +535,7 @@ const tourList=document.getElementById("tourList");
 const home=document.getElementById("home");
 const detail=document.getElementById("detail");
 
-function msgTitle(title){
-  return encodeURIComponent("Hello GoVietStay, I want to ask about " + title + ". Please send me details.");
-}
+function msgTitle(title){return encodeURIComponent("Hello GoVietStay, I want to ask about " + title + ". Please send me details.");}
 
 function renderList(){
 tourList.innerHTML=tours.map(t=>`
@@ -857,39 +544,32 @@ tourList.innerHTML=tours.map(t=>`
     <div class="emoji">${t.emoji}</div>
     <div>
       <h3>${t.title}</h3>
-      <p>${t.duration}</p>
+      <p>${t.ru} • ${t.duration}</p>
     </div>
   </div>
   <div class="content">
     <p>${t.short}</p>
     <div class="badges">
-      <span class="badge">Russian-friendly support</span>
+      <span class="badge">Russian guide on request</span>
+      <span class="badge">English guide on request</span>
       <span class="badge">Private comfort</span>
     </div>
     <div class="price">${t.price}</div>
     <div class="note">Reference price. Final option depends on group size, date and availability.</div>
     <div class="btns">
       <a class="btn blue" onclick="openTour('${t.id}')">View Details</a>
-      <a class="btn green" href="${whatsapp}${msgTitle(t.title)}">WhatsApp</a>
+      <a class="btn green" href="${telegram}">Telegram</a>
     </div>
   </div>
 </div>`).join("");
 }
 
-function openService(id){
-const s=serviceInfo[id];
-openDetail(s);
-}
-
-function openTour(id){
-const t=tours.find(x=>x.id===id);
-openDetail(t);
-}
+function openService(id){openDetail(serviceInfo[id])}
+function openTour(id){openDetail(tours.find(x=>x.id===id))}
 
 function openDetail(t){
 home.classList.add("hidden");
 detail.classList.add("active");
-
 detail.innerHTML=`
 <div class="top">
   <button class="back" onclick="goHome()">← Back</button>
@@ -900,60 +580,50 @@ detail.innerHTML=`
   <div class="coverTitle">
     <div class="coverEmoji">${t.emoji}</div>
     <h2>${t.title}</h2>
+    <p>${t.ru}</p>
     <p>${t.price} • ${t.duration}</p>
   </div>
 </div>
 
 <div class="box">
-  <h3>Overview</h3>
+  <h3>Overview / Обзор</h3>
   ${t.overview.map(p=>`<p>${p}</p>`).join("")}
 </div>
 
 <div class="box">
-  <h3>Suggested Flow</h3>
-  <div class="list">
-    ${t.program.map(i=>`<div class="li"><span class="check">•</span><span>${i}</span></div>`).join("")}
-  </div>
+  <h3>Suggested Flow / Программа</h3>
+  <div class="list">${t.program.map(i=>`<div class="li"><span class="check">•</span><span>${i}</span></div>`).join("")}</div>
 </div>
 
 <div class="box">
-  <h3>Included / Support</h3>
-  <div class="list">
-    ${t.included.map(i=>`<div class="li"><span class="check">✓</span><span>${i}</span></div>`).join("")}
-  </div>
+  <h3>Included / Включено</h3>
+  <div class="list">${t.included.map(i=>`<div class="li"><span class="check">✓</span><span>${i}</span></div>`).join("")}</div>
 </div>
 
 <div class="box">
-  <h3>Not Included</h3>
-  <div class="list">
-    ${t.notIncluded.map(i=>`<div class="li"><span class="check">–</span><span>${i}</span></div>`).join("")}
-  </div>
+  <h3>Not Included / Не включено</h3>
+  <div class="list">${t.notIncluded.map(i=>`<div class="li"><span class="check">–</span><span>${i}</span></div>`).join("")}</div>
 </div>
 
 <div class="box">
-  <h3>Best For</h3>
-  <div class="list">
-    ${t.best.map(i=>`<div class="li"><span class="check">✓</span><span>${i}</span></div>`).join("")}
-  </div>
+  <h3>Best For / Подходит для</h3>
+  <div class="list">${t.best.map(i=>`<div class="li"><span class="check">✓</span><span>${i}</span></div>`).join("")}</div>
 </div>
 
 <div class="box">
-  <h3>Local Tip</h3>
+  <h3>Local Tip / Совет</h3>
   <p>${t.tip}</p>
 </div>
 
 <div class="box">
-  <h3>Trust & Support</h3>
-  <div class="trust">
-    <div class="trustCard"><div class="icon">🇷🇺</div><div><b>Russian-friendly support</b><br><small>Available on request</small></div></div>
-    <div class="trustCard"><div class="icon">🛡️</div><div><b>Safety support</b><br><small>Friendly local assistance</small></div></div>
-    <div class="trustCard"><div class="icon">💬</div><div><b>Telegram / WhatsApp</b><br><small>Support before and during the trip</small></div></div>
-  </div>
+  <h3>Guide & Support</h3>
+  <p>Russian-speaking guide and English-speaking guide are available on request depending on schedule and availability.</p>
+  <p>Русскоговорящий гид и англоговорящий гид доступны по запросу, в зависимости от даты и наличия.</p>
 </div>
 
 <div class="bottom">
   <div class="bottomPrice"><small>FROM</small>${t.price.replace("From ","")}</div>
-  <a class="book" href="${whatsapp}${msgTitle(t.title)}">Ask Now</a>
+  <a class="book" href="${telegram}">Ask on Telegram</a>
 </div>`;
 window.scrollTo(0,0);
 }
@@ -970,23 +640,26 @@ document.getElementById("chatPanel").classList.toggle("active");
 
 function chatAnswer(topic){
 const answers={
-"Private Tours":"Private tours offer private vehicle, flexible schedule and local support. Best for families, couples and small groups. Popular routes: Ba Na Hills, Hoi An, Marble Mountains, Hue and custom experiences.",
-"Ba Na Hills":"Ba Na Hills is famous for the Golden Bridge, cable car, mountain views and cool weather. Best for families, couples and first-time visitors. Reference price from $65.",
-"Hoi An":"Hoi An is perfect for evening lantern streets, riverside atmosphere, local food and romantic photos. Best time: afternoon to evening. Reference price from $45.",
-"Airport Transfer":"Private airport transfer supports airport pickup, hotel drop-off, luggage and flexible timing. Reference price from $15 depending on route and vehicle.",
-"SIM / eSIM":"SIM/eSIM support helps travelers stay connected for maps, Telegram, WhatsApp and travel apps. Availability depends on device compatibility.",
-"Local Tips":"We share local tips for food, coffee, beaches, hidden gems, weather and safe travel around Da Nang.",
-"Travel Support":"Travel support helps international guests with communication, local guidance and smooth travel convenience in Da Nang and Central Vietnam."
+"Private Tours":"Private tours with flexible schedule, private vehicle, Russian-speaking or English-speaking guide on request. Частные туры с гибким графиком и поддержкой.",
+"Ba Na Hills":"Ba Na Hills includes Golden Bridge, cable car and mountain views. Русскоговорящий или англоговорящий гид доступен по запросу. Reference from $65.",
+"Hoi An":"Hoi An is best for lantern streets, old town, food and romantic evening atmosphere. Хойан особенно красив вечером. Reference from $45.",
+"Airport Transfer":"Private airport transfer in Da Nang. Трансфер из аэропорта в отель. Reference from $15.",
+"Payment Support":"International travel convenience support. Digital-friendly, cash-light travel guidance depending on availability and local regulations. Без финансовых обещаний.",
+"Russian Guide":"Russian-speaking guide and English-speaking guide are available on request for selected tours depending on date and availability."
 };
-
 const body=document.getElementById("chatBody");
-body.innerHTML += `
-<div class="bubble"><b>${topic}</b><br>${answers[topic]}</div>
+body.innerHTML += `<div class="bubble"><b>${topic}</b><br>${answers[topic]}</div>
 <div class="chatOptions">
   <a class="chatOption" href="${telegram}">Ask on Telegram</a>
   <a class="chatOption" href="${whatsapp}${encodeURIComponent('Hello GoVietStay, I need help with ' + topic)}">Chat on WhatsApp</a>
 </div>`;
 body.scrollTop=body.scrollHeight;
+}
+
+function setLang(lang){
+document.querySelectorAll("[data-en]").forEach(el=>{
+el.textContent=el.getAttribute("data-"+lang);
+});
 }
 
 renderList();
