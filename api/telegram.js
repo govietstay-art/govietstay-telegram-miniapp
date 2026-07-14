@@ -4,16 +4,14 @@ const TELEGRAM_API = `https://api.telegram.org/bot${BOT_TOKEN}`;
 
 const MINI_APP_URL = "https://project-e3jce.vercel.app";
 const WHATSAPP_URL = "https://wa.me/84937762607";
-
 const BOT_USERNAME = "govietstay_travel_bot";
 
-/**
- * Short-lived in-memory conversation context.
- * This may reset between Vercel function instances.
- * Good enough for Dao V2 testing without a paid database.
- */
-const conversations = globalThis.__DAO_CONVERSATIONS__ || new Map();
-globalThis.__DAO_CONVERSATIONS__ = conversations;
+const CONTEXT_TTL = 15 * 60 * 1000;
+
+const conversations =
+  globalThis.__DAO_V3_CONVERSATIONS__ || new Map();
+
+globalThis.__DAO_V3_CONVERSATIONS__ = conversations;
 
 async function telegram(method, body) {
   const response = await fetch(`${TELEGRAM_API}/${method}`, {
@@ -73,24 +71,61 @@ function includesAny(text, words) {
   return words.some((word) => text.includes(word));
 }
 
-function getContextKey(message) {
+function contextKey(message) {
   return `${message.chat.id}:${message.from?.id || "unknown"}`;
 }
 
-function getContext(message) {
-  return conversations.get(getContextKey(message)) || {
+function createContext() {
+  return {
     lastIntent: null,
     location: null,
-    adults: null,
-    children: null,
+    children: false,
     childAges: [],
+    pendingQuestion: null,
+    pendingData: {},
+    conversationOpenUntil: 0,
     updatedAt: Date.now(),
   };
 }
 
+function getContext(message) {
+  const key = contextKey(message);
+  const saved = conversations.get(key);
+
+  if (!saved) {
+    return createContext();
+  }
+
+  if (Date.now() - saved.updatedAt > CONTEXT_TTL) {
+    conversations.delete(key);
+    return createContext();
+  }
+
+  return saved;
+}
+
 function saveContext(message, context) {
   context.updatedAt = Date.now();
-  conversations.set(getContextKey(message), context);
+  conversations.set(contextKey(message), context);
+}
+
+function openConversation(context) {
+  context.conversationOpenUntil = Date.now() + CONTEXT_TTL;
+}
+
+function isConversationOpen(context) {
+  return context.conversationOpenUntil > Date.now();
+}
+
+function setPendingQuestion(context, question, data = {}) {
+  context.pendingQuestion = question;
+  context.pendingData = data;
+  openConversation(context);
+}
+
+function clearPendingQuestion(context) {
+  context.pendingQuestion = null;
+  context.pendingData = {};
 }
 
 function detectLocation(text) {
@@ -109,14 +144,100 @@ function detectLocation(text) {
   return null;
 }
 
+function locationName(location) {
+  if (location === "danang") return "Дананг";
+  if (location === "hoian") return "Хойан";
+  if (location === "hue") return "Хюэ";
+  return null;
+}
+
+function extractAges(text) {
+  const numbers = text.match(/\b([1-9]|1[0-7])\b/g);
+
+  if (!numbers) {
+    return [];
+  }
+
+  return numbers.map(Number);
+}
+
+function isYes(text) {
+  return includesAny(text, [
+    "да",
+    "может",
+    "может сам",
+    "самостоятельно",
+    "сама",
+    "сам",
+    "yes",
+  ]);
+}
+
+function isNo(text) {
+  return includesAny(text, [
+    "нет",
+    "не может",
+    "не может сам",
+    "не может сама",
+    "нужна помощь",
+    "нужна поддержка",
+    "no",
+  ]);
+}
+
 function detectIntent(text) {
   const intents = [
+    {
+      id: "danang_or_hoian",
+      words: [
+        "дананг или хойан",
+        "хойан или дананг",
+        "где жить",
+        "где остановиться",
+        "лучше жить",
+      ],
+    },
+    {
+      id: "russian_guide",
+      words: [
+        "русский гид",
+        "русскоговорящий гид",
+        "гид на русском",
+        "русская поддержка",
+      ],
+    },
+    {
+      id: "elderly",
+      words: [
+        "мама плохо ходит",
+        "папа плохо ходит",
+        "плохо ходит",
+        "трудно ходить",
+        "пожилой",
+        "пожилая",
+        "пожилые",
+        "инвалид",
+        "коляска",
+        "ограниченная подвижность",
+      ],
+    },
+    {
+      id: "children",
+      words: [
+        "ребенок",
+        "ребёнок",
+        "дети",
+        "ребенка",
+        "ребёнка",
+        "с детьми",
+        "малыш",
+      ],
+    },
     {
       id: "cham",
       words: [
         "чам",
         "чамские",
-        "острова",
         "cham island",
         "кулаочам",
         "ку лао чам",
@@ -129,7 +250,6 @@ function detectIntent(text) {
         "аэропорт",
         "трансфер",
         "встретить",
-        "встреча в аэропорту",
         "airport",
       ],
     },
@@ -167,17 +287,6 @@ function detectIntent(text) {
         "кухня",
         "морепродукты",
         "вкусно",
-        "food",
-      ],
-    },
-    {
-      id: "danang_or_hoian",
-      words: [
-        "дананг или хойан",
-        "хойан или дананг",
-        "где жить",
-        "где остановиться",
-        "лучше жить",
       ],
     },
     {
@@ -197,7 +306,6 @@ function detectIntent(text) {
         "hoi an",
         "фонари",
         "старый город",
-        "лодка",
         "кокосовый лес",
       ],
     },
@@ -208,42 +316,6 @@ function detectIntent(text) {
         "hue",
         "императорский город",
         "цитадель",
-        "гробницы",
-      ],
-    },
-    {
-      id: "russian_guide",
-      words: [
-        "русский гид",
-        "русскоговорящий гид",
-        "гид на русском",
-        "говорит по русски",
-        "русская поддержка",
-      ],
-    },
-    {
-      id: "children",
-      words: [
-        "ребенок",
-        "ребёнок",
-        "дети",
-        "ребенка",
-        "ребёнка",
-        "с детьми",
-        "малыш",
-      ],
-    },
-    {
-      id: "elderly",
-      words: [
-        "пожилой",
-        "пожилая",
-        "пожилые",
-        "мама плохо ходит",
-        "папа плохо ходит",
-        "трудно ходить",
-        "инвалид",
-        "коляска",
       ],
     },
     {
@@ -251,7 +323,6 @@ function detectIntent(text) {
       words: [
         "погода",
         "дождь",
-        "море",
         "волны",
         "шторм",
         "ветер",
@@ -313,10 +384,14 @@ function isQuestion(text) {
   );
 }
 
-function shouldReply(message, text, intent) {
-  const chatType = message.chat?.type;
+function wasReplyToDao(message) {
+  return (
+    message.reply_to_message?.from?.username === BOT_USERNAME
+  );
+}
 
-  if (chatType === "private") {
+function shouldReply(message, text, intent, context) {
+  if (message.chat?.type === "private") {
     return true;
   }
 
@@ -328,10 +403,14 @@ function shouldReply(message, text, intent) {
     `@${BOT_USERNAME}`,
   ]);
 
-  const repliedToDao =
-    message.reply_to_message?.from?.username === BOT_USERNAME;
+  if (calledDao || wasReplyToDao(message)) {
+    return true;
+  }
 
-  if (calledDao || repliedToDao) {
+  if (
+    context.pendingQuestion &&
+    isConversationOpen(context)
+  ) {
     return true;
   }
 
@@ -363,288 +442,443 @@ function buttons() {
   };
 }
 
+function createAnswer(text, question = null, data = {}) {
+  return {
+    text,
+    question,
+    data,
+  };
+}
+
 function answerCham(context) {
   if (context.children) {
-    return `С детьми на Чамские острова ехать можно 🌿
+    return createAnswer(
+      `С детьми на Чамские острова ехать можно 🌿
 
 Но я бы сначала посмотрела возраст детей и состояние моря в день поездки.
 
 Поездка проходит на скоростном катере, поэтому для маленьких детей спокойное море особенно важно.
 
-Сколько лет детям?`;
+Сколько лет детям?`,
+      "child_ages",
+      {
+        topic: "cham",
+      }
+    );
   }
 
-  return random([
-    `Чамские острова мне очень нравятся 🌿
+  return createAnswer(
+    random([
+      `Чамские острова мне очень нравятся 🌿
 
-Но здесь есть один важный момент: море.
+Но здесь есть один важный момент — море.
 
 Даже если утром в Дананге солнечно, выход скоростных катеров зависит от состояния моря и решения порта.
 
-Если море спокойное — поездка обычно очень приятная: катер, остров, снорклинг и отдых.
+Если море спокойное, поездка обычно очень приятная: катер, остров, снорклинг и отдых.
 
 Вы планируете поездку с детьми или только взрослые?`,
 
-    `Если вы впервые в Центральном Вьетнаме, Чамские острова стоит рассмотреть 🏝
+      `Если вы впервые в Центральном Вьетнаме, Чамские острова стоит рассмотреть 🏝
 
-Я бы только не планировала их совсем без запаса по датам. Иногда поездку приходится переносить из-за моря.
+Я бы только не планировала поездку совсем без запаса по датам. Иногда море заставляет менять планы.
 
-Вы сейчас живёте в Дананге или Хойане?`,
-  ]);
-}
-
-function answerAirport() {
-  return random([
-    `Из аэропорта Дананга проще всего заранее организовать машину 🚗
-
-Особенно если вы прилетаете вечером, с детьми или с большим багажом.
-
-Напишите, пожалуйста, в какой отель вы едете?`,
-
-    `Если речь об аэропорте Дананга, я бы не усложняла 😊
-
-Для семьи или нескольких человек удобнее заранее знать машину и место встречи.
-
-Куда вам нужно ехать — Дананг или Хойан?`,
-  ]);
-}
-
-function answerSim() {
-  return `Для туриста SIM или eSIM действительно полезна 📶
-
-Главное — чтобы интернет нормально работал для карт, Telegram и WhatsApp.
-
-Если скажете модель телефона и сколько дней вы будете во Вьетнаме, я подскажу, что удобнее: SIM или eSIM.`;
-}
-
-function answerMoney() {
-  return random([
-    `Я бы не меняла большую сумму сразу в аэропорту 💱
-
-Небольшой суммы на первые расходы достаточно, а основную часть лучше менять позже в проверенном месте.
-
-Вы сейчас в Дананге или Хойане?`,
-
-    `С обменом денег во Вьетнаме лучше не спешить 🌿
-
-Сначала сравните курс и обязательно пересчитайте деньги на месте.
-
-Где вы сейчас находитесь — Дананг или Хойан?`,
-  ]);
-}
-
-function answerFood(context) {
-  if (context.location === "hoian") {
-    return `В Хойане выбор зависит от того, что вам хочется 😊
-
-Если местная кухня — можно искать блюда Центрального Вьетнама.
-
-Если хочется атмосферы — я бы выбрала место ближе к старому городу, но не обязательно прямо на самой туристической улице.
-
-Вы хотите местную еду или морепродукты?`;
-  }
-
-  return `В Дананге я бы сначала уточнила район и что именно вы хотите 🍜
-
-Местная еда, морепродукты или спокойный ресторан для семьи?
-
-Скажите одно — и я постараюсь сузить выбор.`;
-}
-
-function answerDanangOrHoiAn() {
-  return `Если любите море, кафе и более активную жизнь — я бы выбрала Дананг 😊
-
-Если хочется старых улиц, фонарей и более спокойной вечерней атмосферы — Хойан 🏮
-
-Для первой поездки многие живут в Дананге и ездят в Хойан вечером.
-
-Вы путешествуете один, парой или с семьёй?`;
-}
-
-function answerBana() {
-  return `Бана Хиллс стоит посетить хотя бы ради Золотого моста и горной атмосферы 🌉
-
-Но я советую ехать утром. Позже обычно становится больше людей.
-
-Если в группе есть пожилые люди или маленькие дети, маршрут лучше делать спокойнее.
-
-Сколько человек у вас?`;
-}
-
-function answerHoiAn() {
-  return `Хойан особенно красив ближе к вечеру 🏮
-
-Я бы приехала до заката, спокойно погуляла, а потом осталась посмотреть фонари и реку.
-
-Не обязательно пытаться увидеть всё сразу.
-
-Вы хотите просто прогулку или Хойан вместе с кокосовым лесом?`;
-}
-
-function answerHue() {
-  return `Хюэ — это уже больше история и культура 🏯
-
-Я бы выделила на него целый день и не пыталась добавить слишком много других мест.
-
-Если ехать из Дананга, маршрут можно сделать через перевал Хай Ван.
-
-Вы любите историю или просто хотите увидеть самые красивые места?`;
-}
-
-function answerRussianGuide() {
-  return `Да, русскоязычная поддержка возможна 🇷🇺🌿
-
-Напишите, пожалуйста, дату поездки, количество человек и куда вы хотите поехать.
-
-Я помогу передать информацию команде GoVietStay.`;
+Вы едете с детьми или только взрослые?`,
+    ]),
+    "travel_party",
+    {
+      topic: "cham",
+    }
+  );
 }
 
 function answerChildren(context) {
-  if (context.lastIntent === "cham") {
-    context.children = true;
-
-    return `Поняла 🌿 Тогда для Чамских островов мне важен возраст детей.
-
-Поездка проходит на скоростном катере, и с маленькими детьми я всегда советую внимательнее смотреть состояние моря.
-
-Сколько лет детям?`;
-  }
-
-  return `С детьми я бы не пыталась делать слишком много точек за один день 😊
+  return createAnswer(
+    `С детьми я бы не пыталась делать слишком много точек за один день 😊
 
 Лучше меньше мест, но без спешки и усталости.
 
-Сколько лет детям?`;
+Сколько лет детям?`,
+    "child_ages",
+    {
+      topic: context.lastIntent || "general",
+    }
+  );
 }
 
 function answerElderly() {
-  return `Тогда я бы не советовала маршрут с большим количеством точек 🌿
+  return createAnswer(
+    `Тогда я бы не советовала маршрут с большим количеством точек 🌿
 
 Лучше сделать поездку медленнее: короткие прогулки, время для отдыха и машина рядом.
 
 Маршрут должен подходить человеку, а не человек маршруту.
 
-Скажите, пожалуйста, человек может самостоятельно садиться в автомобиль?`;
+Скажите, пожалуйста, человек может самостоятельно садиться в автомобиль?`,
+    "mobility_car",
+    {
+      topic: "mobility",
+    }
+  );
+}
+
+function answerAirport() {
+  return createAnswer(
+    `Из аэропорта Дананга проще всего заранее организовать машину 🚗
+
+Особенно если вы прилетаете вечером, с детьми или с большим багажом.
+
+Куда вам нужно ехать — в Дананг или Хойан?`,
+    "location"
+  );
+}
+
+function answerSim() {
+  return createAnswer(
+    `Для туриста SIM или eSIM действительно полезна 📶
+
+Главное — чтобы интернет нормально работал для карт, Telegram и WhatsApp.
+
+Какая у вас модель телефона?`,
+    "phone_model"
+  );
+}
+
+function answerMoney() {
+  return createAnswer(
+    `Я бы не меняла большую сумму сразу в аэропорту 💱
+
+Небольшой суммы на первые расходы достаточно, а основную часть лучше менять позже в проверенном месте.
+
+Вы сейчас в Дананге или Хойане?`,
+    "location"
+  );
+}
+
+function answerFood(context) {
+  const location = locationName(context.location);
+
+  return createAnswer(
+    `${location ? `Поняла, вы в ${location} 🌿\n\n` : ""}Я бы сначала уточнила, что именно вам хочется 🍜
+
+Местная кухня, морепродукты или спокойный ресторан для семьи?`,
+    "food_type"
+  );
+}
+
+function answerDanangOrHoiAn() {
+  return createAnswer(
+    `Если любите море, кафе и более активную жизнь — я бы выбрала Дананг 😊
+
+Если хочется старых улиц, фонарей и спокойной вечерней атмосферы — Хойан 🏮
+
+Для первой поездки многие живут в Дананге и ездят в Хойан вечером.
+
+Вы путешествуете один, парой или с семьёй?`,
+    "travel_party"
+  );
+}
+
+function answerBana() {
+  return createAnswer(
+    `Бана Хиллс стоит посетить хотя бы ради Золотого моста и горной атмосферы 🌉
+
+Но я советую ехать утром. Позже обычно становится больше людей.
+
+Сколько человек у вас?`,
+    "guest_count"
+  );
+}
+
+function answerHoiAn() {
+  return createAnswer(
+    `Хойан особенно красив ближе к вечеру 🏮
+
+Я бы приехала до заката, спокойно погуляла, а потом осталась посмотреть фонари и реку.
+
+Вы хотите просто прогулку или Хойан вместе с кокосовым лесом?`,
+    "hoian_style"
+  );
+}
+
+function answerHue() {
+  return createAnswer(
+    `Хюэ — это больше история и культура 🏯
+
+Я бы выделила на него целый день и не пыталась добавить слишком много других мест.
+
+Вы любите историю или просто хотите увидеть самые красивые места?`,
+    "hue_style"
+  );
+}
+
+function answerRussianGuide() {
+  return createAnswer(
+    `Да, русскоязычная поддержка возможна 🇷🇺🌿
+
+Напишите, пожалуйста, дату поездки и количество человек.
+
+Я помогу передать информацию команде GoVietStay.`,
+    "guide_details"
+  );
 }
 
 function answerWeather() {
-  return `С погодой и морем я не хочу угадывать 🌿
+  return createAnswer(
+    `С погодой и морем я не хочу угадывать 🌿
 
 Для морских поездок важен не только дождь. Даже при солнце состояние моря может быть небезопасным.
 
-Окончательное решение по выходу катеров зависит от реальных морских условий и разрешения порта.
-
-О какой дате поездки вы спрашиваете?`;
+О какой дате поездки вы спрашиваете?`,
+    "travel_date"
+  );
 }
 
 function answerMedicine() {
-  return `Если человеку действительно плохо, лучше не пытаться ставить диагноз по переписке.
+  return createAnswer(
+    `Если человеку действительно плохо, лучше не пытаться ставить диагноз по переписке.
 
 Напишите, пожалуйста, что именно случилось и в каком районе вы сейчас находитесь.
 
-Если ситуация срочная или состояние быстро ухудшается — нужно обратиться за медицинской помощью сразу.`;
+Если ситуация срочная или состояние быстро ухудшается — нужно обратиться за медицинской помощью сразу.`,
+    "medical_details"
+  );
 }
 
 function answerTour() {
-  return `Конечно 🌿
+  return createAnswer(
+    `Конечно 🌿
 
 Сначала мне нужно понять самих путешественников, а не просто выбрать готовый тур.
 
-Напишите, пожалуйста:
-
-📅 дату
-👥 количество человек
-📍 где вы живёте — Дананг или Хойан
-
-И я помогу понять, какой маршрут будет удобнее.`;
+Напишите дату, количество человек и где вы живёте — Дананг или Хойан.`,
+    "tour_details"
+  );
 }
 
 function buildIntentAnswer(intent, context) {
   switch (intent) {
     case "cham":
       return answerCham(context);
-
-    case "airport":
-      return answerAirport();
-
-    case "sim":
-      return answerSim();
-
-    case "money":
-      return answerMoney();
-
-    case "food":
-      return answerFood(context);
-
-    case "danang_or_hoian":
-      return answerDanangOrHoiAn();
-
-    case "bana":
-      return answerBana();
-
-    case "hoian":
-      return answerHoiAn();
-
-    case "hue":
-      return answerHue();
-
-    case "russian_guide":
-      return answerRussianGuide();
-
     case "children":
       return answerChildren(context);
-
     case "elderly":
       return answerElderly();
-
+    case "airport":
+      return answerAirport();
+    case "sim":
+      return answerSim();
+    case "money":
+      return answerMoney();
+    case "food":
+      return answerFood(context);
+    case "danang_or_hoian":
+      return answerDanangOrHoiAn();
+    case "bana":
+      return answerBana();
+    case "hoian":
+      return answerHoiAn();
+    case "hue":
+      return answerHue();
+    case "russian_guide":
+      return answerRussianGuide();
     case "weather":
       return answerWeather();
-
     case "medicine":
       return answerMedicine();
-
     case "tour":
       return answerTour();
-
     default:
       return null;
   }
 }
 
-function contextFollowUp(text, context) {
-  const ageMatches = text.match(/\b([1-9]|1[0-7])\b/g);
+function handlePendingAnswer(text, context) {
+  const question = context.pendingQuestion;
 
-  if (
-    context.lastIntent === "children" ||
-    (context.lastIntent === "cham" && context.children)
-  ) {
-    if (ageMatches?.length) {
-      context.childAges = ageMatches.map(Number);
-      context.children = true;
+  if (!question) {
+    return null;
+  }
 
-      const youngest = Math.min(...context.childAges);
+  if (question === "child_ages") {
+    const ages = extractAges(text);
 
-      if (context.lastIntent === "cham") {
-        if (youngest <= 5) {
-          return `Поняла 🌿
+    if (!ages.length) {
+      return createAnswer(
+        `Кажется, я немного не поняла 😊
+
+Вы имеете в виду возраст детей?
+
+Например: 4 и 8 лет.`,
+        "child_ages",
+        context.pendingData
+      );
+    }
+
+    context.children = true;
+    context.childAges = ages;
+
+    const youngest = Math.min(...ages);
+
+    if (context.pendingData?.topic === "cham") {
+      if (youngest <= 5) {
+        return createAnswer(
+          `Поняла 🌿 Детям ${ages.join(" и ")} лет.
 
 С ребёнком ${youngest} лет я бы особенно внимательно смотрела состояние моря в день поездки.
 
-Я не говорю, что ехать нельзя. Просто для маленького ребёнка комфорт на скоростном катере важнее количества мест в программе.
+Я не говорю, что ехать нельзя. Просто комфорт маленького ребёнка на скоростном катере для меня важнее количества мест в программе.
 
-Вы сейчас живёте в Дананге или Хойане?`;
-        }
-
-        return `Поняла 😊 Для детей такого возраста поездка обычно проще.
-
-Но море всё равно нужно проверять ближе к дате.
-
-Вы сейчас в Дананге или Хойане?`;
+Вы сейчас живёте в Дананге или Хойане?`,
+          "location",
+          {
+            topic: "cham",
+          }
+        );
       }
+
+      return createAnswer(
+        `Поняла 😊 Детям ${ages.join(" и ")} лет.
+
+Для такого возраста поездка обычно проще.
+
+Но состояние моря всё равно нужно учитывать ближе к дате.
+
+Вы сейчас в Дананге или Хойане?`,
+        "location",
+        {
+          topic: "cham",
+        }
+      );
     }
+
+    return createAnswer(
+      `Поняла 😊 Детям ${ages.join(" и ")} лет.
+
+Тогда маршрут уже можно подбирать намного точнее.
+
+Я бы всё равно не делала слишком много остановок за один день.
+
+Вы сейчас живёте в Дананге или Хойане?`,
+      "location"
+    );
+  }
+
+  if (question === "mobility_car") {
+    if (isYes(text)) {
+      return createAnswer(
+        `Хорошо, это уже многое упрощает 🌿
+
+Тогда можно сделать спокойный маршрут с машиной рядом, короткими прогулками и достаточным временем для отдыха.
+
+Куда вы хотели бы поехать?`
+      );
+    }
+
+    if (isNo(text)) {
+      return createAnswer(
+        `Поняла 🌿
+
+Тогда маршрут нужно планировать ещё внимательнее.
+
+Я бы заранее учитывала посадку в автомобиль, расстояние до входов и минимальное количество лестниц.
+
+Напишите, пожалуйста, куда вы хотели бы поехать.`
+      );
+    }
+
+    const ages = extractAges(text);
+
+    if (ages.length) {
+      return createAnswer(
+        `Кажется, мы немного смешали два вопроса 😊
+
+${ages.join(" и ")} — это возраст детей?
+
+А про маму я спрашивала: она может самостоятельно садиться в автомобиль?`,
+        "mobility_car",
+        {
+          possibleChildAges: ages,
+        }
+      );
+    }
+
+    return createAnswer(
+      `Кажется, я не совсем поняла 😊
+
+Я спрашивала, может ли человек самостоятельно садиться в автомобиль.
+
+Можно просто ответить: да или нет.`,
+      "mobility_car"
+    );
+  }
+
+  if (question === "location") {
+    const location = detectLocation(text);
+
+    if (!location) {
+      return createAnswer(
+        `Уточню совсем коротко 😊
+
+Вы сейчас в Дананге или Хойане?`,
+        "location",
+        context.pendingData
+      );
+    }
+
+    context.location = location;
+
+    return createAnswer(
+      `Поняла, ${locationName(location)} 🌿
+
+Спасибо. Теперь мне проще советовать по месту.
+
+Что для вас сейчас важнее всего — поездка, еда, трансфер или просто совет по городу?`
+    );
+  }
+
+  if (question === "travel_party") {
+    if (includesAny(text, ["дет", "ребен", "ребён"])) {
+      context.children = true;
+
+      return createAnswer(
+        `Поняла, вы путешествуете с детьми 🌿
+
+Тогда мне важен возраст детей.
+
+Сколько им лет?`,
+        "child_ages",
+        context.pendingData
+      );
+    }
+
+    return createAnswer(
+      `Поняла 🌿
+
+Тогда я бы подбирала маршрут именно под ваш темп, а не пыталась показать всё за один день.
+
+Что вам интереснее — море, природа, история или местная жизнь?`
+    );
   }
 
   return null;
+}
+
+function applyAnswerContext(context, answer) {
+  if (!answer) {
+    return;
+  }
+
+  if (answer.question) {
+    setPendingQuestion(
+      context,
+      answer.question,
+      answer.data || {}
+    );
+  } else {
+    clearPendingQuestion(context);
+    openConversation(context);
+  }
 }
 
 function welcomeMessage(firstName) {
@@ -652,40 +886,51 @@ function welcomeMessage(firstName) {
 
 Я Дао — местный помощник GoVietStay во Вьетнаме 🇻🇳
 
-Я помогаю в первую очередь русскоязычным путешественникам в Дананге, Хойане, Хюэ и Центральном Вьетнаме.
+Я в первую очередь помогаю русскоязычным путешественникам в Дананге, Хойане, Хюэ и Центральном Вьетнаме.
 
-Можно спросить меня о поездках, Чамских островах, трансфере, SIM, местной еде или просто жизни путешественника во Вьетнаме.
+Можно спросить меня о Чамских островах, поездках, трансфере, SIM, местной еде или путешествии с детьми и пожилыми родителями.
 
-Я не буду сразу продавать вам экскурсию 😊
+Я не буду сразу продавать экскурсию 😊
 
-Сначала постараюсь помочь.
+Сначала постараюсь понять вашу ситуацию и помочь.
 
 Просто напишите свой вопрос 🌿`;
 }
 
-function fallbackAnswer() {
-  return random([
-    `Я Дао 🌿
+function smartFallback(context) {
+  if (isConversationOpen(context)) {
+    return createAnswer(
+      `Кажется, я немного потеряла смысл вашего ответа 😊
 
-Я лучше всего знаю Дананг, Хойан, Хюэ и путешествия по Центральному Вьетнаму.
+Не хочу придумывать.
 
-Скажите немного подробнее, что вы хотите узнать?`,
+Скажите чуть подробнее одним предложением — я попробую понять вас правильно.`
+    );
+  }
 
-    `Постараюсь помочь 🌿
+  return createAnswer(
+    random([
+      `Я Дао 🌿
 
-Можно чуть подробнее?
+Лучше всего я знаю Дананг, Хойан, Хюэ и путешествия по Центральному Вьетнаму.
 
-Например: где вы сейчас находитесь и что именно планируете?`,
-  ]);
+Что именно вы хотите узнать?`,
+
+      `Постараюсь помочь 🌿
+
+Скажите немного подробнее: где вы сейчас и что планируете?`,
+    ])
+  );
 }
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
     return res.status(200).json({
       ok: true,
-      bot: "Dao V2",
+      bot: "Dao V3",
       brand: "GoVietStay",
       language: "Russian first",
+      brain: "Conversation context",
       ai_api_cost: 0,
     });
   }
@@ -707,22 +952,30 @@ export default async function handler(req, res) {
 
     const chatId = message.chat.id;
     const text = message.text || "";
-    const normalizedText = normalize(text);
-    const firstName = message.from?.first_name || "друг";
 
     if (!text) {
       return res.status(200).json({ ok: true });
     }
 
+    const normalizedText = normalize(text);
+    const firstName = message.from?.first_name || "друг";
+
     if (
       normalizedText === "/start" ||
       normalizedText.startsWith("/start@")
     ) {
-      await sendMessage(chatId, welcomeMessage(firstName), {
-        reply_markup: buttons(),
-      });
+      await sendMessage(
+        chatId,
+        welcomeMessage(firstName),
+        {
+          reply_markup: buttons(),
+        }
+      );
 
-      return res.status(200).json({ ok: true });
+      return res.status(200).json({
+        ok: true,
+        action: "welcome",
+      });
     }
 
     if (
@@ -740,7 +993,10 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: true });
       }
 
-      const pinResult = await pinMessage(chatId, reply.message_id);
+      const pinResult = await pinMessage(
+        chatId,
+        reply.message_id
+      );
 
       if (pinResult.ok) {
         await sendMessage(
@@ -765,24 +1021,39 @@ export default async function handler(req, res) {
       context.location = location;
     }
 
-    const followUp = contextFollowUp(normalizedText, context);
+    const pendingAnswer = handlePendingAnswer(
+      normalizedText,
+      context
+    );
 
-    if (followUp) {
+    if (pendingAnswer) {
       await sendTyping(chatId);
 
-      await sendMessage(chatId, followUp, {
+      applyAnswerContext(context, pendingAnswer);
+      saveContext(message, context);
+
+      await sendMessage(chatId, pendingAnswer.text, {
         reply_to_message_id: message.message_id,
         allow_sending_without_reply: true,
       });
 
-      saveContext(message, context);
-
-      return res.status(200).json({ ok: true });
+      return res.status(200).json({
+        ok: true,
+        action: "conversation_follow_up",
+        pending_question: context.pendingQuestion,
+      });
     }
 
     const intent = detectIntent(normalizedText);
 
-    if (!shouldReply(message, text, intent)) {
+    if (
+      !shouldReply(
+        message,
+        text,
+        intent,
+        context
+      )
+    ) {
       return res.status(200).json({
         ok: true,
         action: "silent",
@@ -798,38 +1069,51 @@ export default async function handler(req, res) {
         context.children = true;
       }
 
-      const answer = buildIntentAnswer(intent, context);
+      const answer = buildIntentAnswer(
+        intent,
+        context
+      );
 
-      await sendMessage(chatId, answer, {
+      applyAnswerContext(context, answer);
+      saveContext(message, context);
+
+      await sendMessage(chatId, answer.text, {
         reply_to_message_id: message.message_id,
         allow_sending_without_reply: true,
         reply_markup:
-          intent === "tour" || intent === "russian_guide"
+          intent === "tour" ||
+          intent === "russian_guide"
             ? buttons()
             : undefined,
       });
 
-      saveContext(message, context);
-
       return res.status(200).json({
         ok: true,
         intent,
+        pending_question:
+          context.pendingQuestion,
       });
     }
 
-    await sendMessage(chatId, fallbackAnswer(), {
+    const fallback = smartFallback(context);
+
+    applyAnswerContext(context, fallback);
+    saveContext(message, context);
+
+    await sendMessage(chatId, fallback.text, {
       reply_to_message_id: message.message_id,
       allow_sending_without_reply: true,
     });
-
-    saveContext(message, context);
 
     return res.status(200).json({
       ok: true,
       intent: "fallback",
     });
   } catch (error) {
-    console.error("Dao V2 webhook error:", error);
+    console.error(
+      "Dao V3 webhook error:",
+      error
+    );
 
     return res.status(200).json({
       ok: false,
