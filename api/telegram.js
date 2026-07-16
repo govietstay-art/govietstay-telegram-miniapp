@@ -428,14 +428,6 @@ async function pinMessage(chatId, messageId) {
   });
 }
 
-async function answerCallbackQuery(callbackQueryId, text = "") {
-  return telegram("answerCallbackQuery", {
-    callback_query_id: callbackQueryId,
-    text,
-    show_alert: false,
-  });
-}
-
 /* =========================================================
    HELPERS
 ========================================================= */
@@ -699,7 +691,7 @@ Just send me your question 🌿`,
 
 function createContext() {
   return {
-    version: 7,
+    version: 8,
     language: null,
     lastIntent: null,
     activeTopic: null,
@@ -1037,6 +1029,16 @@ const INTENTS = [
   },
 ];
 
+function isGreeting(text) {
+  const greetings = [
+    "hi", "hello", "hey", "good morning", "good afternoon", "good evening",
+    "xin chào", "chào", "chào bạn",
+    "привет", "здравствуйте", "добрый день", "доброе утро", "добрый вечер"
+  ];
+
+  return greetings.includes(text);
+}
+
 function detectIntent(text) {
   let best = null;
 
@@ -1105,99 +1107,23 @@ function shouldReply(message, text, intent, context) {
 
 function buttons(lang, context = null) {
   const labels = {
-    vi: ["🇻🇳 Mở Mini App", "💬 WhatsApp GoVietStay"],
-    en: ["🇻🇳 Open Mini App", "💬 WhatsApp GoVietStay"],
-    ru: ["🇻🇳 Открыть Mini App", "💬 WhatsApp GoVietStay"],
+    vi: ["🇻🇳 Mở trợ lý Đào", "💬 Liên hệ GoVietStay"],
+    en: ["🇻🇳 Open Đào Assistant", "💬 Contact GoVietStay"],
+    ru: ["🇻🇳 Открыть помощника Đào", "💬 Связаться с GoVietStay"],
   };
 
   return {
     inline_keyboard: [
-      [{ text: labels[lang][0], web_app: { url: MINI_APP_URL } }],
+      [{
+        text: labels[lang][0],
+        web_app: { url: MINI_APP_URL },
+      }],
       [{
         text: labels[lang][1],
         url: context ? buildWhatsAppUrl(context, lang) : WHATSAPP_URL,
       }],
     ],
   };
-}
-
-function mainMenuButtons(lang, context = null) {
-  const L = {
-    vi: {
-      tours: "🏝 Tour nổi bật", cham: "🐠 Cù Lao Chàm", bana: "🌉 Bà Nà Hills",
-      hoian: "🏮 Hội An", hue: "🏯 Huế", airport: "🚕 Đón sân bay",
-      visa: "📄 Visa", combos: "🎁 Combo tour", app: "🇻🇳 Mở Mini App",
-      whatsapp: "💬 WhatsApp", reviews: "⭐ Google Reviews", help: "👩‍💼 Hỗ trợ tiếng Nga"
-    },
-    en: {
-      tours: "🏝 Featured Tours", cham: "🐠 Cham Island", bana: "🌉 Ba Na Hills",
-      hoian: "🏮 Hoi An", hue: "🏯 Hue", airport: "🚕 Airport Transfer",
-      visa: "📄 Visa", combos: "🎁 Tour Combos", app: "🇻🇳 Open Mini App",
-      whatsapp: "💬 WhatsApp", reviews: "⭐ Google Reviews", help: "👩‍💼 Russian Support"
-    },
-    ru: {
-      tours: "🏝 Популярные экскурсии", cham: "🐠 Остров Чам", bana: "🌉 Бана Хиллс",
-      hoian: "🏮 Хойан", hue: "🏯 Хюэ", airport: "🚕 Трансфер из аэропорта",
-      visa: "📄 Виза", combos: "🎁 Комбо-туры", app: "🇻🇳 Открыть Mini App",
-      whatsapp: "💬 WhatsApp", reviews: "⭐ Отзывы Google", help: "👩‍💼 Поддержка на русском"
-    },
-  }[lang];
-
-  return {
-    inline_keyboard: [
-      [{ text: L.tours, callback_data: "menu:tours" }],
-      [
-        { text: L.cham, callback_data: "topic:cham" },
-        { text: L.bana, callback_data: "topic:bana" },
-      ],
-      [
-        { text: L.hoian, callback_data: "topic:hoian" },
-        { text: L.hue, callback_data: "topic:hue" },
-      ],
-      [
-        { text: L.airport, callback_data: "topic:airport" },
-        { text: L.visa, callback_data: "topic:visa" },
-      ],
-      [{ text: L.combos, callback_data: "menu:combos" }],
-      [{ text: L.app, web_app: { url: MINI_APP_URL } }],
-      [
-        { text: L.whatsapp, url: context ? buildWhatsAppUrl(context, lang) : WHATSAPP_URL },
-        { text: L.reviews, url: "https://maps.app.goo.gl/znWBmL8zPKEJqnoW6?g_st=ic" },
-      ],
-      [{ text: L.help, url: "https://wa.me/84937762607?text=" + encodeURIComponent(
-        lang === "ru"
-          ? "Здравствуйте! Мне нужна поддержка на русском языке."
-          : lang === "vi"
-            ? "Xin chào! Tôi cần hỗ trợ bằng tiếng Nga."
-            : "Hello! I need Russian-language support."
-      ) }],
-    ],
-  };
-}
-
-function menuText(lang) {
-  return {
-    vi: "🌿 GoVietStay — Trợ lý du lịch miền Trung Việt Nam\n\nChọn mục bên dưới để xem tour, đặt xe, làm visa hoặc liên hệ hỗ trợ. Trong nhóm, bạn cũng có thể gọi @govietstay_travel_bot và đặt câu hỏi.",
-    en: "🌿 GoVietStay — Central Vietnam Travel Assistant\n\nChoose an option below for tours, transfers, visas, or local support. In the group, you can also mention @govietstay_travel_bot and ask a question.",
-    ru: "🌿 GoVietStay — помощник по Центральному Вьетнаму\n\nВыберите раздел ниже: экскурсии, трансфер, виза или поддержка. В группе также можно упомянуть @govietstay_travel_bot и задать вопрос.",
-  }[lang];
-}
-
-function toursMenuText(lang) {
-  return {
-    vi: "🏝 Tour nổi bật của GoVietStay\n\nChọn điểm đến để xem thông tin, giá tham khảo và bắt đầu yêu cầu đặt tour.",
-    en: "🏝 Featured GoVietStay tours\n\nChoose a destination to see details, reference pricing, and start a booking request.",
-    ru: "🏝 Популярные экскурсии GoVietStay\n\nВыберите направление, чтобы узнать детали, ориентировочную цену и начать бронирование.",
-  }[lang];
-}
-
-function comboMenuText(lang) {
-  const lines = {
-    vi: ["🎁 Combo tour GoVietStay", "", "1️⃣ Classic Đà Nẵng — Bà Nà + Hội An: 2.660.000 VND/người", "2️⃣ Biển & Di sản — Cù Lao Chàm + Hội An: 2.090.000 VND/người", "3️⃣ Top 3 Miền Trung — Bà Nà + Cù Lao Chàm + Hội An: 3.500.000 VND/người", "4️⃣ Di sản Miền Trung — Bà Nà + Hội An + Huế: 3.995.000 VND/người", "", "Giá áp dụng với hướng dẫn viên tiếng Anh. Hướng dẫn viên tiếng Nga vui lòng liên hệ để xác nhận."],
-    en: ["🎁 GoVietStay tour combos", "", "1️⃣ Classic Da Nang — Ba Na + Hoi An: 2,660,000 VND/person", "2️⃣ Sea & Heritage — Cham Island + Hoi An: 2,090,000 VND/person", "3️⃣ Top 3 Central Vietnam — Ba Na + Cham Island + Hoi An: 3,500,000 VND/person", "4️⃣ Central Vietnam Heritage — Ba Na + Hoi An + Hue: 3,995,000 VND/person", "", "Prices apply with an English-speaking guide. Contact us to confirm a Russian-speaking guide."],
-    ru: ["🎁 Комбо-туры GoVietStay", "", "1️⃣ Классический Дананг — Бана + Хойан: 2 660 000 VND/чел.", "2️⃣ Море и наследие — остров Чам + Хойан: 2 090 000 VND/чел.", "3️⃣ Топ-3 Центрального Вьетнама — Бана + Чам + Хойан: 3 500 000 VND/чел.", "4️⃣ Наследие Центрального Вьетнама — Бана + Хойан + Хюэ: 3 995 000 VND/чел.", "", "Цены указаны с англоговорящим гидом. Русскоговорящий гид подтверждается отдельно."],
-  };
-  return lines[lang].join("\n");
 }
 
 /* =========================================================
@@ -1839,49 +1765,6 @@ function fallback(context, lang) {
 }
 
 /* =========================================================
-   CALLBACK QUERY
-========================================================= */
-
-async function handleCallbackQuery(callbackQuery) {
-  const message = callbackQuery.message;
-  if (!message) return;
-
-  const chatId = message.chat.id;
-  const fakeMessage = {
-    ...message,
-    from: callbackQuery.from,
-    text: callbackQuery.data || "",
-  };
-  const context = getContext(fakeMessage);
-  const lang = context.language || telegramLanguage(callbackQuery.from?.language_code) || DEFAULT_LANGUAGE;
-  context.language = lang;
-  openConversation(context);
-
-  const data = callbackQuery.data || "";
-  let text = menuText(lang);
-  let replyMarkup = mainMenuButtons(lang, context);
-
-  if (data === "menu:tours") {
-    text = toursMenuText(lang);
-  } else if (data === "menu:combos") {
-    text = comboMenuText(lang);
-  } else if (data.startsWith("topic:")) {
-    const topic = data.split(":")[1];
-    if (["bana", "cham", "hoian", "hue", "airport", "visa"].includes(topic)) {
-      setTopic(context, topic);
-      const result = topicAnswer(topic, context, lang);
-      applyAnswer(context, result);
-      text = result.text;
-      replyMarkup = mainMenuButtons(lang, context);
-    }
-  }
-
-  saveContext(fakeMessage, context);
-  await answerCallbackQuery(callbackQuery.id);
-  await sendMessage(chatId, text, { reply_markup: replyMarkup });
-}
-
-/* =========================================================
    WEBHOOK
 ========================================================= */
 
@@ -1889,12 +1772,9 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     return res.status(200).json({
       ok: true,
-      bot: "Dao Brain V7 Full",
+      bot: "Dao Brain V7 Safe",
       brand: "GoVietStay",
       languages: ["vi", "en", "ru"],
-      menu_command: true,
-      callback_menu: true,
-      auto_pin_menu: true,
       language_detection: true,
       price_book: true,
       combo_book: true,
@@ -1905,44 +1785,37 @@ export default async function handler(req, res) {
   }
 
   if (req.method !== "POST") {
-    return res.status(405).json({ ok: false, error: "Method not allowed" });
+    return res.status(405).json({
+      ok: false,
+      error: "Method not allowed",
+    });
   }
 
   try {
-    const update = req.body || {};
-
-    if (update.callback_query) {
-      await handleCallbackQuery(update.callback_query);
-      return res.status(200).json({ ok: true, action: "callback_query" });
-    }
-
+    const update = req.body;
     const message = update.message;
+
     if (!message || message.from?.is_bot) {
       return res.status(200).json({ ok: true });
     }
 
     const chatId = message.chat.id;
-
-    if (Array.isArray(message.new_chat_members) && message.new_chat_members.length) {
-      const joined = message.new_chat_members.filter((m) => !m.is_bot);
-      if (joined.length) {
-        const lang = telegramLanguage(joined[0]?.language_code) || DEFAULT_LANGUAGE;
-        await sendMessage(chatId, menuText(lang), {
-          reply_markup: mainMenuButtons(lang),
-          reply_to_message_id: message.message_id,
-          allow_sending_without_reply: true,
-        });
-      }
-      return res.status(200).json({ ok: true, action: "welcome_new_member" });
-    }
-
     const rawText = message.text || "";
-    if (!rawText) return res.status(200).json({ ok: true });
+
+    if (!rawText) {
+      return res.status(200).json({ ok: true });
+    }
 
     const text = normalize(rawText);
     const firstName = message.from?.first_name || "friend";
     const context = getContext(message);
-    const lang = detectLanguage(rawText, context, message.from?.language_code);
+
+    const lang = detectLanguage(
+      rawText,
+      context,
+      message.from?.language_code
+    );
+
     const explicitLanguageSwitch = detectExplicitLanguageSwitch(rawText);
 
     context.language = lang;
@@ -1954,102 +1827,149 @@ export default async function handler(req, res) {
         en: "Of course 🌿 I’ll reply in English from now on.",
         ru: "Конечно 🌿 Теперь я буду отвечать по-русски.",
       };
+
       clearPending(context);
       openConversation(context);
       saveContext(message, context);
+
       await sendMessage(chatId, switchedText[lang], {
         reply_to_message_id: message.message_id,
         allow_sending_without_reply: true,
       });
-      return res.status(200).json({ ok: true, action: "language_switched", language: lang });
+
+      return res.status(200).json({
+        ok: true,
+        action: "language_switched",
+        language: lang,
+      });
     }
 
-    if (text === "/start" || text.startsWith("/start@")) {
+    if (
+      text === "/start" || text.startsWith("/start@") ||
+      text === "/menu" || text.startsWith("/menu@")
+    ) {
       clearPending(context);
       openConversation(context);
       saveContext(message, context);
-      const privateChat = message.chat?.type === "private";
-      await sendMessage(chatId, privateChat ? T.welcome[lang](firstName) : menuText(lang), {
-        reply_markup: privateChat ? buttons(lang, context) : mainMenuButtons(lang, context),
+
+      await sendMessage(chatId, T.welcome[lang](firstName), {
+        reply_markup: buttons(lang, context),
       });
-      return res.status(200).json({ ok: true, action: "start_v7", language: lang });
+
+      return res.status(200).json({
+        ok: true,
+        action: text.startsWith("/menu") ? "menu" : "welcome_v7",
+        language: lang,
+      });
     }
 
-    if (text === "/menu" || text.startsWith("/menu@")) {
+    if (isGreeting(text)) {
       clearPending(context);
       openConversation(context);
       saveContext(message, context);
-      await sendMessage(chatId, menuText(lang), {
-        reply_markup: mainMenuButtons(lang, context),
-      });
-      return res.status(200).json({ ok: true, action: "menu_v7", language: lang });
-    }
 
-    if (text === "/pinmenu" || text.startsWith("/pinmenu@")) {
-      clearPending(context);
-      openConversation(context);
-      saveContext(message, context);
-      const sent = await sendMessage(chatId, menuText(lang), {
-        reply_markup: mainMenuButtons(lang, context),
+      const greetingText = {
+        vi: `👋 Xin chào ${firstName}! Tôi là Đào, trợ lý du lịch của GoVietStay. Tôi có thể giúp bạn về tour, Cù Lao Chàm, Bà Nà Hills, Hội An, Huế, đón sân bay và visa.`,
+        en: `👋 Hello ${firstName}! I’m Đào, GoVietStay’s travel assistant. I can help with tours, Cham Island, Ba Na Hills, Hoi An, Hue, airport transfers, and visas.`,
+        ru: `👋 Здравствуйте, ${firstName}! Я Дао, туристический помощник GoVietStay. Я могу помочь с экскурсиями, островом Чам, Бана Хиллс, Хойаном, Хюэ, трансфером и визой.`
+      }[lang];
+
+      await sendMessage(chatId, greetingText, {
+        reply_to_message_id: message.message_id,
+        allow_sending_without_reply: true,
+        reply_markup: buttons(lang, context),
       });
-      let pinned = false;
-      if (sent.ok && sent.result?.message_id) {
-        const pinResult = await pinMessage(chatId, sent.result.message_id);
-        pinned = Boolean(pinResult.ok);
-      }
-      const status = pinned
-        ? { vi: "📌 Đã tạo và ghim menu GoVietStay.", en: "📌 GoVietStay menu created and pinned.", ru: "📌 Меню GoVietStay создано и закреплено." }[lang]
-        : { vi: "Menu đã được tạo nhưng chưa ghim được. Hãy cấp quyền Pin Messages cho bot.", en: "The menu was created but could not be pinned. Give the bot Pin Messages permission.", ru: "Меню создано, но не закреплено. Дайте боту право закреплять сообщения." }[lang];
-      await sendMessage(chatId, status);
-      return res.status(200).json({ ok: true, action: "pinmenu_v7", pinned });
+
+      return res.status(200).json({
+        ok: true,
+        action: "greeting",
+        language: lang,
+      });
     }
 
     if (text === "/pin" || text.startsWith("/pin@")) {
       const reply = message.reply_to_message;
+
       if (!reply) {
-        await sendMessage(chatId, {
+        const pinHelp = {
           vi: "Hãy trả lời tin nhắn cần ghim bằng lệnh /pin.",
           en: "Reply to the message you want to pin with /pin.",
           ru: "Ответьте командой /pin на сообщение, которое нужно закрепить.",
-        }[lang]);
+        };
+
+        await sendMessage(chatId, pinHelp[lang]);
         return res.status(200).json({ ok: true });
       }
+
       const pinResult = await pinMessage(chatId, reply.message_id);
-      await sendMessage(chatId, pinResult.ok
-        ? { vi: "📌 Đào đã ghim tin nhắn.", en: "📌 Đào pinned the message.", ru: "📌 Дао закрепила сообщение." }[lang]
-        : { vi: "Không thể ghim. Hãy kiểm tra quyền quản trị của bot.", en: "Unable to pin. Please check the bot’s admin permissions.", ru: "Не удалось закрепить. Проверьте права администратора." }[lang]);
+
+      const pinText = pinResult.ok
+        ? {
+            vi: "📌 Đào đã ghim tin nhắn.",
+            en: "📌 Đào pinned the message.",
+            ru: "📌 Дао закрепила сообщение.",
+          }[lang]
+        : {
+            vi: "Không thể ghim. Hãy kiểm tra quyền quản trị của bot.",
+            en: "Unable to pin. Please check the bot’s admin permissions.",
+            ru: "Не удалось закрепить. Проверьте права администратора.",
+          }[lang];
+
+      await sendMessage(chatId, pinText);
       return res.status(200).json({ ok: true });
     }
 
     const detectedCombo = detectCombo(text);
     let intent = detectIntent(text);
+
     if (detectedCombo) {
       context.activeCombo = detectedCombo;
-      intent = includesAny(text, ["giá", "bao nhiêu", "price", "how much", "цена", "сколько стоит", "стоимость"])
-        ? "price" : "combo";
+      intent = includesAny(text, [
+        "giá", "bao nhiêu", "price", "how much",
+        "цена", "сколько стоит", "стоимость"
+      ])
+        ? "price"
+        : "combo";
     }
 
     if (!shouldReply(message, text, intent, context)) {
       saveContext(message, context);
-      return res.status(200).json({ ok: true, action: "silent", language: lang });
+
+      return res.status(200).json({
+        ok: true,
+        action: "silent",
+        language: lang,
+      });
     }
 
     await sendTyping(chatId);
-    if (shouldInterruptPending(intent, text, context)) clearPending(context);
+
+    if (shouldInterruptPending(intent, text, context)) {
+      clearPending(context);
+    }
 
     let result = null;
     let action = "fallback";
+
     if (context.pendingQuestion) {
       result = handlePending(text, context, lang);
       if (result) action = "pending_followup";
     }
+
     if (!result && intent) {
       context.lastIntent = intent;
-      if (["bana", "cham", "hoian", "hue", "airport", "visa"].includes(intent)) setTopic(context, intent);
+
+      if (["bana", "cham", "hoian", "hue", "airport", "visa"].includes(intent)) {
+        setTopic(context, intent);
+      }
+
       result = generalIntentAnswer(intent, context, lang);
       action = `intent_${intent}`;
     }
-    if (!result) result = fallback(context, lang);
+
+    if (!result) {
+      result = fallback(context, lang);
+    }
 
     calculateLeadScore(context, intent);
     applyAnswer(context, result);
@@ -2058,12 +1978,14 @@ export default async function handler(req, res) {
     await sendMessage(chatId, result.text, {
       reply_to_message_id: message.message_id,
       allow_sending_without_reply: true,
-      reply_markup: result.showButtons ? mainMenuButtons(lang, context) : undefined,
+      reply_markup: result.showButtons
+        ? buttons(lang, context)
+        : undefined,
     });
 
     return res.status(200).json({
       ok: true,
-      bot: "Dao Brain V7 Full",
+      bot: "Dao Brain V7 Safe",
       action,
       language: lang,
       intent: intent || "fallback",
@@ -2079,7 +2001,11 @@ export default async function handler(req, res) {
       },
     });
   } catch (error) {
-    console.error("Dao Brain V7 webhook error:", error);
-    return res.status(200).json({ ok: false, error: "Webhook processing error" });
+    console.error("Dao Brain V7 Safe webhook error:", error);
+
+    return res.status(200).json({
+      ok: false,
+      error: "Webhook processing error",
+    });
   }
 }
