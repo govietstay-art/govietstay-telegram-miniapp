@@ -6,12 +6,12 @@ const MINI_APP_URL = "https://project-e3jce.vercel.app";
 const WHATSAPP_URL = "https://wa.me/84937762607";
 const BOT_USERNAME = "govietstay_travel_bot";
 
-const CONTEXT_TTL = 15 * 60 * 1000;
+const CONTEXT_TTL = 6 * 60 * 60 * 1000;
 
 const conversations =
-  globalThis.__DAO_V3_CONVERSATIONS__ || new Map();
+  globalThis.__DAO_V6_CONVERSATIONS__ || new Map();
 
-globalThis.__DAO_V3_CONVERSATIONS__ = conversations;
+globalThis.__DAO_V6_CONVERSATIONS__ = conversations;
 
 async function telegram(method, body) {
   const response = await fetch(`${TELEGRAM_API}/${method}`, {
@@ -927,10 +927,10 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     return res.status(200).json({
       ok: true,
-      bot: "Dao V3",
+      bot: "Dao V6",
       brand: "GoVietStay",
       language: "Russian first",
-      brain: "Conversation context",
+      brain: "Conversation Context + V6 Base",
       ai_api_cost: 0,
     });
   }
