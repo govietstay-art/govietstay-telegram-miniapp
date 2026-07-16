@@ -86,6 +86,305 @@ const PRICE_BOOK = {
   },
 };
 
+
+/* =========================================================
+   COMBO DATABASE — GOVIETSTAY
+========================================================= */
+
+const COMBO_BOOK = {
+  combo1: {
+    id: "combo1",
+    code: "COMBO 1",
+    duration: { days: 2, nights: 1 },
+    pricePerPerson: 2660000,
+    individualTotal: 2800000,
+    savingPerPerson: 140000,
+    discountPercent: 5,
+    tours: ["bana", "hoian"],
+    aliases: [
+      "combo 1", "classic da nang", "combo ba na hoi an",
+      "combo bà nà hội an", "классический дананг",
+      "бана хойан", "combo bana hoian"
+    ],
+    names: {
+      vi: "Combo 1 – Classic Đà Nẵng",
+      en: "Combo 1 – Classic Da Nang",
+      ru: "Комбо 1 – Классический Дананг"
+    },
+    summary: {
+      vi: "2 ngày 1 đêm: Bà Nà Hills & Cầu Vàng; Rừng dừa thuyền thúng + Phố cổ Hội An.",
+      en: "2 days / 1 night: Ba Na Hills & Golden Bridge; Coconut Forest basket boat + Hoi An Ancient Town.",
+      ru: "2 дня / 1 ночь: Бана Хиллс и Золотой мост; кокосовый лес, лодки-корзины и Старый город Хойана."
+    },
+    bestFor: {
+      vi: ["Khách lần đầu", "Gia đình", "Cặp đôi", "Nhóm bạn", "Lưu trú 3–4 ngày"],
+      en: ["First-time visitors", "Families", "Couples", "Friends & groups", "3–4 day stays"],
+      ru: ["Первый визит", "Семьи", "Пары", "Друзья и группы", "Проживание 3–4 дня"]
+    }
+  },
+
+  combo2: {
+    id: "combo2",
+    code: "COMBO 2",
+    duration: { days: 2, nights: 1 },
+    pricePerPerson: 2090000,
+    individualTotal: 2200000,
+    savingPerPerson: 110000,
+    discountPercent: 5,
+    tours: ["cham", "hoian"],
+    aliases: [
+      "combo 2", "sea and heritage", "sea & heritage",
+      "combo biển hội an", "combo cù lao chàm hội an",
+      "море и наследие", "остров чам хойан"
+    ],
+    names: {
+      vi: "Combo 2 – Biển & Di sản",
+      en: "Combo 2 – Sea & Heritage",
+      ru: "Комбо 2 – Море и наследие"
+    },
+    summary: {
+      vi: "2 ngày 1 đêm: Cù Lao Chàm lặn ngắm san hô; Rừng dừa thuyền thúng + Phố cổ Hội An.",
+      en: "2 days / 1 night: Cham Island snorkeling; Coconut Forest basket boat + Hoi An Ancient Town.",
+      ru: "2 дня / 1 ночь: остров Чам и снорклинг; кокосовый лес, лодки-корзины и Старый город Хойана."
+    },
+    bestFor: {
+      vi: ["Khách Nga", "Người trẻ", "Cặp đôi", "Gia đình có trẻ em", "Khách chỉ có 2 ngày"],
+      en: ["Russian travelers", "Young travelers", "Couples", "Families with children", "Guests with only 2 days"],
+      ru: ["Русские путешественники", "Молодёжь", "Пары", "Семьи с детьми", "Гости только на 2 дня"]
+    },
+    weatherDependent: true
+  },
+
+  combo3: {
+    id: "combo3",
+    code: "COMBO 3",
+    duration: { days: 3, nights: 2 },
+    pricePerPerson: 3500000,
+    individualTotal: 3750000,
+    savingPerPerson: 250000,
+    discountPercent: 6.5,
+    tours: ["bana", "cham", "hoian"],
+    aliases: [
+      "combo 3", "top 3 central vietnam", "top 3 miền trung",
+      "combo bà nà cù lao chàm hội an",
+      "топ 3 центрального вьетнама",
+      "бана чам хойан"
+    ],
+    names: {
+      vi: "Combo 3 – Top 3 Miền Trung",
+      en: "Combo 3 – Top 3 Central Vietnam",
+      ru: "Комбо 3 – Топ 3 Центрального Вьетнама"
+    },
+    summary: {
+      vi: "3 ngày 2 đêm: Bà Nà Hills; Cù Lao Chàm; Rừng dừa thuyền thúng + Phố cổ Hội An.",
+      en: "3 days / 2 nights: Ba Na Hills; Cham Island; Coconut Forest basket boat + Hoi An Ancient Town.",
+      ru: "3 дня / 2 ночи: Бана Хиллс; остров Чам; кокосовый лес, лодки-корзины и Старый город Хойана."
+    },
+    bestFor: {
+      vi: ["Khách lần đầu", "Gia đình", "Cặp đôi", "Khách Nga", "Lưu trú 4–6 ngày"],
+      en: ["First-time visitors", "Families", "Couples", "Russian travelers", "4–6 day stays"],
+      ru: ["Первый визит", "Семьи", "Пары", "Русские путешественники", "Проживание 4–6 дней"]
+    },
+    weatherDependent: true
+  },
+
+  combo4: {
+    id: "combo4",
+    code: "COMBO 4",
+    duration: { days: 3, nights: 2 },
+    pricePerPerson: 3995000,
+    individualTotal: 4250000,
+    savingPerPerson: 255000,
+    discountPercent: 6,
+    tours: ["bana", "hoian", "hue"],
+    aliases: [
+      "combo 4", "central vietnam heritage",
+      "central vietnam cultural journey",
+      "combo di sản miền trung",
+      "combo bà nà hội an huế",
+      "культурное путешествие по центральному вьетнаму",
+      "бана хойан хуэ"
+    ],
+    names: {
+      vi: "Combo 4 – Di sản Miền Trung",
+      en: "Combo 4 – Central Vietnam Heritage",
+      ru: "Комбо 4 – Культурное путешествие по Центральному Вьетнаму"
+    },
+    summary: {
+      vi: "3 ngày 2 đêm: Bà Nà Hills; Rừng dừa + Hội An; Cố đô Huế.",
+      en: "3 days / 2 nights: Ba Na Hills; Coconut Forest + Hoi An; Hue Imperial City.",
+      ru: "3 дня / 2 ночи: Бана Хиллс; кокосовый лес + Хойан; Императорский город Хюэ."
+    },
+    bestFor: {
+      vi: ["Khách châu Âu", "Người lớn tuổi", "Gia đình", "Người yêu lịch sử", "Lưu trú 4–6 ngày"],
+      en: ["European travelers", "Seniors", "Families", "History lovers", "4–6 day stays"],
+      ru: ["Европейские путешественники", "Пожилые гости", "Семьи", "Любители истории", "Проживание 4–6 дней"]
+    }
+  }
+};
+
+function detectCombo(text) {
+  for (const combo of Object.values(COMBO_BOOK)) {
+    if (combo.aliases.some((alias) => text.includes(alias))) {
+      return combo.id;
+    }
+  }
+
+  const direct = text.match(/\bcombo\s*([1-4])\b/i);
+
+  if (direct) {
+    return `combo${direct[1]}`;
+  }
+
+  return null;
+}
+
+function comboName(comboId, lang) {
+  return COMBO_BOOK[comboId]?.names?.[lang] || comboId;
+}
+
+function comboPriceAnswer(comboId, lang, guestCount = null) {
+  const combo = COMBO_BOOK[comboId];
+
+  if (!combo) return null;
+
+  const total = guestCount
+    ? combo.pricePerPerson * guestCount
+    : null;
+
+  const lines = {
+    vi: [
+      `🌿 ${combo.names.vi}`,
+      combo.summary.vi,
+      "",
+      `• Giá combo: ${formatVND(combo.pricePerPerson)}/người`,
+      `• Tiết kiệm: ${formatVND(combo.savingPerPerson)}/người`,
+      guestCount ? `• ${guestCount} khách: ${formatVND(total)}` : null,
+      "",
+      "Giá áp dụng với hướng dẫn viên tiếng Anh. Hướng dẫn viên tiếng Nga: vui lòng liên hệ GoVietStay để xác nhận.",
+      combo.weatherDependent
+        ? "Lưu ý: phần Cù Lao Chàm phụ thuộc tình trạng biển và quyết định của cảng."
+        : null
+    ],
+    en: [
+      `🌿 ${combo.names.en}`,
+      combo.summary.en,
+      "",
+      `• Combo price: ${formatVND(combo.pricePerPerson)} per person`,
+      `• Saving: ${formatVND(combo.savingPerPerson)} per person`,
+      guestCount ? `• ${guestCount} guests: ${formatVND(total)}` : null,
+      "",
+      "The listed price applies with an English-speaking guide. For a Russian-speaking guide, please contact GoVietStay for confirmation.",
+      combo.weatherDependent
+        ? "Note: the Cham Island day depends on sea conditions and port approval."
+        : null
+    ],
+    ru: [
+      `🌿 ${combo.names.ru}`,
+      combo.summary.ru,
+      "",
+      `• Цена комбо: ${formatVND(combo.pricePerPerson)} с человека`,
+      `• Экономия: ${formatVND(combo.savingPerPerson)} с человека`,
+      guestCount ? `• ${guestCount} гостей: ${formatVND(total)}` : null,
+      "",
+      "Указанная цена действует с англоговорящим гидом. Русскоговорящий гид — по запросу, стоимость подтверждает GoVietStay.",
+      combo.weatherDependent
+        ? "Важно: день на острове Чам зависит от состояния моря и разрешения порта."
+        : null
+    ]
+  };
+
+  return answer(
+    lines[lang].filter(Boolean).join("\n"),
+    guestCount ? null : "guest_count",
+    { comboId, comboPricingFlow: true },
+    true
+  );
+}
+
+function comboRecommendationAnswer(lang) {
+  const lines = {
+    vi: [
+      "🌿 Gợi ý nhanh:",
+      "• Combo 1: lần đầu đến Đà Nẵng, 2 ngày, Bà Nà + Hội An.",
+      "• Combo 2: thích biển, Cù Lao Chàm + Hội An.",
+      "• Combo 3: đủ núi – biển – phố cổ trong 3 ngày.",
+      "• Combo 4: thiên về văn hóa, Hội An + Huế.",
+      "",
+      "Bạn có bao nhiêu ngày và đi cùng ai?"
+    ],
+    en: [
+      "🌿 Quick recommendation:",
+      "• Combo 1: first visit, 2 days, Ba Na + Hoi An.",
+      "• Combo 2: sea lovers, Cham Island + Hoi An.",
+      "• Combo 3: mountain, sea, and heritage in 3 days.",
+      "• Combo 4: culture-focused, Hoi An + Hue.",
+      "",
+      "How many days do you have, and who are you traveling with?"
+    ],
+    ru: [
+      "🌿 Быстрая рекомендация:",
+      "• Комбо 1: первый визит, 2 дня, Бана + Хойан.",
+      "• Комбо 2: море, остров Чам + Хойан.",
+      "• Комбо 3: горы, море и наследие за 3 дня.",
+      "• Комбо 4: культура, Хойан + Хюэ.",
+      "",
+      "Сколько у вас дней и с кем вы путешествуете?"
+    ]
+  };
+
+  return answer(lines[lang], "combo_profile");
+}
+
+function buildWhatsAppUrl(context, lang) {
+  const labels = {
+    vi: {
+      title: "Yêu cầu từ Đào",
+      service: "Dịch vụ",
+      date: "Ngày",
+      guests: "Số khách",
+      area: "Khu vực",
+      hotel: "Khách sạn",
+      language: "Ngôn ngữ"
+    },
+    en: {
+      title: "Request from Đào",
+      service: "Service",
+      date: "Date",
+      guests: "Guests",
+      area: "Area",
+      hotel: "Hotel",
+      language: "Language"
+    },
+    ru: {
+      title: "Запрос от Дао",
+      service: "Услуга",
+      date: "Дата",
+      guests: "Гостей",
+      area: "Район",
+      hotel: "Отель",
+      language: "Язык"
+    }
+  };
+
+  const L = labels[lang];
+  const service = context.activeCombo
+    ? comboName(context.activeCombo, lang)
+    : localizedTopic(context.activeTopic, lang);
+
+  const rows = [
+    L.title,
+    `${L.service}: ${service || "GoVietStay"}`,
+    context.travelDate ? `${L.date}: ${context.travelDate}` : null,
+    context.guestCount ? `${L.guests}: ${context.guestCount}` : null,
+    context.location ? `${L.area}: ${locationName(context.location, lang)}` : null,
+    context.hotel ? `${L.hotel}: ${context.hotel}` : null,
+    `${L.language}: ${lang.toUpperCase()}`
+  ].filter(Boolean);
+
+  return `https://wa.me/84937762607?text=${encodeURIComponent(rows.join("\n"))}`;
+}
+
 /* =========================================================
    TELEGRAM API
 ========================================================= */
@@ -178,12 +477,15 @@ function locationName(location, lang) {
 
 const LANGUAGE_MARKERS = {
   vi: [
+    "xin chào", "chào", "vui lòng", "thông tin", "cho tôi biết",
     "giá", "bao nhiêu", "người", "trẻ em", "ngày mai", "hôm nay",
     "đi", "được không", "ở đâu", "khách sạn", "đặt tour", "tôi",
     "mình", "anh", "chị", "vé", "xe", "sân bay", "thời tiết",
     "mưa", "ăn", "nhà hàng", "đón", "đưa", "có", "không",
   ],
   en: [
+    "hello", "hi", "please", "english", "information", "info",
+    "tell me", "give me", "about", "what", "which", "when",
     "price", "how much", "people", "person", "child", "children",
     "tomorrow", "today", "hotel", "book", "booking", "tour",
     "airport", "weather", "rain", "restaurant", "transfer",
@@ -208,7 +510,62 @@ function telegramLanguage(languageCode = "") {
   return null;
 }
 
+
+function detectExplicitLanguageSwitch(rawText) {
+  const text = normalize(rawText);
+
+  const commands = {
+    en: [
+      "english please",
+      "speak english",
+      "in english",
+      "english",
+      "tiếng anh",
+      "tieng anh",
+      "английский",
+      "на английском",
+      "по английски",
+    ],
+    vi: [
+      "tiếng việt",
+      "tieng viet",
+      "nói tiếng việt",
+      "noi tieng viet",
+      "vietnamese please",
+      "speak vietnamese",
+      "in vietnamese",
+      "вьетнамский",
+      "на вьетнамском",
+    ],
+    ru: [
+      "русский",
+      "по русски",
+      "по-русски",
+      "на русском",
+      "russian please",
+      "speak russian",
+      "in russian",
+      "tiếng nga",
+      "tieng nga",
+    ],
+  };
+
+  for (const [lang, phrases] of Object.entries(commands)) {
+    if (phrases.some((phrase) => text === phrase || text.includes(phrase))) {
+      return lang;
+    }
+  }
+
+  return null;
+}
+
 function detectLanguage(rawText, context, telegramCode) {
+  const explicitSwitch = detectExplicitLanguageSwitch(rawText);
+
+  if (explicitSwitch) {
+    return explicitSwitch;
+  }
+
   const text = normalize(rawText);
 
   if (/[а-яА-ЯёЁ]/.test(rawText)) {
@@ -334,10 +691,11 @@ Just send me your question 🌿`,
 
 function createContext() {
   return {
-    version: 7,
+    version: 8,
     language: null,
     lastIntent: null,
     activeTopic: null,
+    activeCombo: null,
     previousTopic: null,
 
     pendingQuestion: null,
@@ -590,6 +948,14 @@ const INTENTS = [
       "виза", "электронная виза",
     ],
   },
+
+  {
+    id: "combo",
+    words: [
+      "combo", "com bo", "package", "multi day",
+      "nhiều ngày", "gói tour", "комбо", "пакетный тур"
+    ],
+  },
   {
     id: "price",
     words: [
@@ -729,7 +1095,7 @@ function shouldReply(message, text, intent, context) {
    BUTTONS
 ========================================================= */
 
-function buttons(lang) {
+function buttons(lang, context = null) {
   const labels = {
     vi: ["🇻🇳 Mở trợ lý Đào", "💬 Liên hệ GoVietStay"],
     en: ["🇻🇳 Open Đào Assistant", "💬 Contact GoVietStay"],
@@ -744,7 +1110,7 @@ function buttons(lang) {
       }],
       [{
         text: labels[lang][1],
-        url: WHATSAPP_URL,
+        url: context ? buildWhatsAppUrl(context, lang) : WHATSAPP_URL,
       }],
     ],
   };
@@ -876,11 +1242,23 @@ ${PRICE_BOOK.hoian.notes.ru}
 }
 
 function generalIntentAnswer(intent, context, lang) {
+  if (intent === "combo") {
+    if (context.activeCombo) {
+      return comboPriceAnswer(context.activeCombo, lang, context.guestCount);
+    }
+
+    return comboRecommendationAnswer(lang);
+  }
+
   if (["bana", "cham", "hoian", "hue", "airport", "visa"].includes(intent)) {
     return topicAnswer(intent, context, lang);
   }
 
   if (intent === "price") {
+    if (context.activeCombo) {
+      return comboPriceAnswer(context.activeCombo, lang, context.guestCount);
+    }
+
     return priceAnswer(topicForPrice(context), lang);
   }
 
@@ -1021,6 +1399,11 @@ function handlePending(text, context, lang) {
     }
 
     context.guestCount = count;
+
+    if (data.comboPricingFlow && data.comboId) {
+      context.activeCombo = data.comboId;
+      return comboPriceAnswer(data.comboId, lang, count);
+    }
 
     if (data.bookingFlow) {
       if (!context.travelDate) {
@@ -1225,6 +1608,14 @@ function handlePending(text, context, lang) {
     return buildLeadAnswer(context, lang);
   }
 
+  if (q === "combo_profile") {
+    return answer({
+      vi: "Cảm ơn bạn 🌿 Hãy chọn Combo 1, 2, 3 hoặc 4. Bạn cũng có thể nói sở thích như: biển, văn hóa, gia đình hoặc người lớn tuổi.",
+      en: "Thank you 🌿 Please choose Combo 1, 2, 3, or 4. You can also tell me your preference: sea, culture, family, or seniors.",
+      ru: "Спасибо 🌿 Выберите Комбо 1, 2, 3 или 4. Можно также указать предпочтения: море, культура, семья или пожилые гости."
+    }[lang]);
+  }
+
   if (["visa_details", "food_type", "phone_model", "hotel_or_area", "tour_interest"].includes(q)) {
     return answer({
       vi: "Cảm ơn bạn, tôi đã ghi nhận 🌿 Bạn có thể gửi thêm ngày đi, số người hoặc khu vực đang ở để tôi tư vấn chính xác hơn.",
@@ -1371,11 +1762,13 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     return res.status(200).json({
       ok: true,
-      bot: "Dao Brain V7",
+      bot: "Dao Brain V8 Stable",
       brand: "GoVietStay",
       languages: ["vi", "en", "ru"],
       language_detection: true,
       price_book: true,
+      combo_book: true,
+      combos: 4,
       memory_hours: 6,
       ai_api_cost: 0,
     });
@@ -1413,8 +1806,33 @@ export default async function handler(req, res) {
       message.from?.language_code
     );
 
+    const explicitLanguageSwitch = detectExplicitLanguageSwitch(rawText);
+
     context.language = lang;
     enrichContext(text, context);
+
+    if (explicitLanguageSwitch) {
+      const switchedText = {
+        vi: "Được rồi 🌿 Từ bây giờ tôi sẽ trả lời bằng tiếng Việt.",
+        en: "Of course 🌿 I’ll reply in English from now on.",
+        ru: "Конечно 🌿 Теперь я буду отвечать по-русски.",
+      };
+
+      clearPending(context);
+      openConversation(context);
+      saveContext(message, context);
+
+      await sendMessage(chatId, switchedText[lang], {
+        reply_to_message_id: message.message_id,
+        allow_sending_without_reply: true,
+      });
+
+      return res.status(200).json({
+        ok: true,
+        action: "language_switched",
+        language: lang,
+      });
+    }
 
     if (text === "/start" || text.startsWith("/start@")) {
       clearPending(context);
@@ -1422,7 +1840,7 @@ export default async function handler(req, res) {
       saveContext(message, context);
 
       await sendMessage(chatId, T.welcome[lang](firstName), {
-        reply_markup: buttons(lang),
+        reply_markup: buttons(lang, context),
       });
 
       return res.status(200).json({
@@ -1464,7 +1882,18 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true });
     }
 
-    const intent = detectIntent(text);
+    const detectedCombo = detectCombo(text);
+    let intent = detectIntent(text);
+
+    if (detectedCombo) {
+      context.activeCombo = detectedCombo;
+      intent = includesAny(text, [
+        "giá", "bao nhiêu", "price", "how much",
+        "цена", "сколько стоит", "стоимость"
+      ])
+        ? "price"
+        : "combo";
+    }
 
     if (!shouldReply(message, text, intent, context)) {
       saveContext(message, context);
@@ -1513,18 +1942,19 @@ export default async function handler(req, res) {
       reply_to_message_id: message.message_id,
       allow_sending_without_reply: true,
       reply_markup: result.showButtons
-        ? buttons(lang)
+        ? buttons(lang, context)
         : undefined,
     });
 
     return res.status(200).json({
       ok: true,
-      bot: "Dao Brain V7",
+      bot: "Dao Brain V8 Stable",
       action,
       language: lang,
       intent: intent || "fallback",
       context: {
         activeTopic: context.activeTopic,
+        activeCombo: context.activeCombo,
         pendingQuestion: context.pendingQuestion,
         guestCount: context.guestCount,
         travelDate: context.travelDate,
